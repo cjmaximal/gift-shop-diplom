@@ -15,7 +15,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'surname',
+        'name',
+        'patronymic',
+        'name',
+        'email',
+        'phone',
+        'password',
+        'address_index',
+        'address_city',
+        'address_street',
+        'address_home',
+        'address_block',
+        'address_apartment',
+        'address_porch',
+        'address_comment',
     ];
 
     /**
@@ -26,4 +40,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = title_case($value);
+    }
+
+    public function setSurnameAttribute($value)
+    {
+        $this->attributes['surname'] = title_case($value);
+    }
+
+    public function setPatronymicAttribute($value)
+    {
+        $this->attributes['patronymic'] = title_case($value);
+    }
 }
