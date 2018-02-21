@@ -27,8 +27,8 @@ class User extends Authenticatable
         'address_street',
         'address_home',
         'address_block',
-        'address_apartment',
         'address_porch',
+        'address_apartment',
         'address_comment',
     ];
 
@@ -41,23 +41,53 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Orders relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Password attribute mutator
+     *
+     * @param $value
+     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
 
+    /**
+     * Name attribute mutator
+     *
+     * @param $value
+     */
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = title_case($value);
+        $this->attributes['name'] = ucfirst($value);
     }
 
+    /**
+     * Surname attribute mutator
+     *
+     * @param $value
+     */
     public function setSurnameAttribute($value)
     {
-        $this->attributes['surname'] = title_case($value);
+        $this->attributes['surname'] = ucfirst($value);
     }
 
+    /**
+     * Patronymic attribute mutator
+     *
+     * @param $value
+     */
     public function setPatronymicAttribute($value)
     {
-        $this->attributes['patronymic'] = title_case($value);
+        $this->attributes['patronymic'] = ucfirst($value);
     }
 }
