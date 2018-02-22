@@ -9,7 +9,6 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
-        'slug',
     ];
 
     public static function boot()
@@ -19,6 +18,16 @@ class Category extends Model
         static::saving(function ($category) {
             $category->slug = str_slug($category->name, '-');
         });
+    }
+
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     /**

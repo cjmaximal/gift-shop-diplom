@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoriesController extends Controller
 {
@@ -20,14 +21,15 @@ class CategoriesController extends Controller
     {
         $categories = Category::query()
             ->orderBy('name')
-            ->forPage($request->get('page', $this->page), $this->perPage);
+            ->forPage($request->get('page', $this->page), $this->perPage)
+            ->get();
 
-        return view('admin.category.index', ['categories' => $categories]);
+        return view('admin.categories.index', ['categories' => $categories]);
     }
 
     public function create()
     {
-        return view('admin.category.create');
+        return view('admin.categories.create');
     }
 
     public function store(Request $request)
@@ -36,10 +38,62 @@ class CategoriesController extends Controller
             'name' => 'required|unique:categories|max:255',
         ]);
 
-        $category = Category::create($validatedData);
+        $category = (new Category())->fill($validatedData);
+        try {
+            $category->save();
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('error', 'Ой! Что-то пошло не так...');
+        }
 
         return redirect()
             ->route('admin.categories.index')
             ->with('status', "Новая категория <strong>{$category->name}</strong> успешно добавлена!");
+    }
+
+    public function edit(Category $category)
+    {
+        return view('admin.categories.edit', ['category' => $category]);
+    }
+
+    public function update(Request $request, Category $category)
+    {
+        $validatedData = $request->validate([
+            'name' => [
+                'required',
+                Rule::unique('categories', 'name')->ignore($category->id),
+                'max:255',
+            ],
+        ]);
+
+        $category->fill($validatedData);
+        try {
+            $category->save();
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('error', 'Ой! Что-то пошло не так...');
+        }
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('status', "Категория <strong>{$category->name}</strong> успешно обновлена!");
+    }
+
+    public function destroy(Category $category)
+    {
+        $name = $category->name;
+        try {
+            $category->delete();
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('error', 'Ой! Что-то пошло не так...');
+        }
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('status', "Категория <strong>$name</strong> успешно удалена!");
     }
 }

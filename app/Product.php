@@ -12,7 +12,6 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'slug',
         'description',
         'price',
     ];
@@ -29,6 +28,16 @@ class Product extends Model
         static::saving(function ($model) {
             $model->slug = str_slug($model->name);
         });
+    }
+
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     /**

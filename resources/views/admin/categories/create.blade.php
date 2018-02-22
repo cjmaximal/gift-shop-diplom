@@ -1,15 +1,25 @@
 @extends('layouts.admin')
 
-@section('title', 'Категории')
+@section('title', 'Добавление категории')
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10">
+
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Закрыть">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
                 <div class="card border-info">
                     <h5 class="card-header bg-info text-light">Добавление категории</h5>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('admin.categories.store') }}">
+                        <form action="{{ route('admin.categories.store') }}" method="POST">
                             @csrf
 
                             <div class="form-group">

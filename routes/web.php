@@ -38,6 +38,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/', 'Admin\CategoriesController@index')->name('admin.categories.index');
         Route::get('create', 'Admin\CategoriesController@create')->name('admin.categories.create');
         Route::post('store', 'Admin\CategoriesController@store')->name('admin.categories.store');
+        Route::get('edit/{category}', 'Admin\CategoriesController@edit')->name('admin.categories.edit');
+        Route::put('update/{category}', 'Admin\CategoriesController@update')->name('admin.categories.update');
+        Route::delete('destroy/{category}', 'Admin\CategoriesController@destroy')->name('admin.categories.destroy');
     });
 
     // Products

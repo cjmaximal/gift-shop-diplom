@@ -14,17 +14,14 @@ class OrdersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        if (session()->has('admin.order.perPage')) {
-            $this->perPage = session()->get('admin.order.perPage', $this->perPage);
-        } else {
-            session('admin.order.perPage', $this->perPage);
-        }
     }
 
     public function index(Request $request)
     {
-        $orders = Order::all()->forPage($request->get('page', $this->page), $this->perPage);
+        $orders = Order::query()
+            ->orderBy('created_at', 'desc')
+            ->forPage($request->get('page', $this->page), $this->perPage)
+            ->get();
 
         dd($orders);
     }
