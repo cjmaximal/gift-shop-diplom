@@ -19,9 +19,9 @@
                 @endif
 
                 <div class="card border-info">
-                    <h5 class="card-header bg-info">Категории</h5>
+                    <h5 class="card-header bg-info text-light">Категории</h5>
                     <div class="card-body">
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
                     </div>
                 </div>
 

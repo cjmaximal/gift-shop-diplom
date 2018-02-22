@@ -28,25 +28,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item {{ Route::currentRouteNamed('admin.orders.*') ?? 'active' }}">
+                    <li class="nav-item {{ Route::currentRouteNamed('admin.orders.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.orders.index') }}" class="nav-link">
                             <span class="oi oi-document" title="icon document" aria-hidden="true"></span>
                             Заказы
                         </a>
                     </li>
-                    <li class="nav-item {{ Route::currentRouteNamed('admin.users.*') ?? 'active' }}">
+                    <li class="nav-item {{ Route::currentRouteNamed('admin.users.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.users.index') }}" class="nav-link">
                             <span class="oi oi-people" title="icon people" aria-hidden="true"></span>
                             Пользователи
                         </a>
                     </li>
-                    <li class="nav-item {{ Route::currentRouteNamed('admin.categories.*') ?? 'active' }}">
+                    <li class="nav-item {{ Route::currentRouteNamed('admin.categories.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.categories.index') }}" class="nav-link">
                             <span class="oi oi-list" title="icon list" aria-hidden="true"></span>
                             Категории
                         </a>
                     </li>
-                    <li class="nav-item {{ Route::currentRouteNamed('admin.products.*') ?? 'active' }}">
+                    <li class="nav-item {{ Route::currentRouteNamed('admin.products.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.products.index') }}" class="nav-link">
                             <span class="oi oi-list-rich" title="icon list-rich" aria-hidden="true"></span>
                             Товары

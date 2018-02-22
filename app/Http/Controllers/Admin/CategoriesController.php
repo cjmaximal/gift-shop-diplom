@@ -6,7 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CategoriesController extends Controller
 {
     private $page = 1;
     private $perPage = 10;
@@ -14,17 +14,13 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        if (session()->has('admin.category.perPage')) {
-            $this->perPage = session()->get('admin.category.perPage', $this->perPage);
-        } else {
-            session('admin.category.perPage', $this->perPage);
-        }
     }
 
     public function index(Request $request)
     {
-        $categories = Category::all()->forPage($request->get('page', $this->page), $this->perPage);
+        $categories = Category::query()
+            ->orderBy('name')
+            ->forPage($request->get('page', $this->page), $this->perPage);
 
         return view('admin.category.index', ['categories' => $categories]);
     }

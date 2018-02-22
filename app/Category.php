@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Helpers;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -37,6 +38,6 @@ class Category extends Model
      */
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = studly_case($value);
+        $this->attributes['name'] = Helpers::ucfirst_utf8($value);
     }
 }

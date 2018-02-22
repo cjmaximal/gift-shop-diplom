@@ -6,7 +6,7 @@ use App\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class OrderController extends Controller
+class OrdersController extends Controller
 {
     private $page = 1;
     private $perPage = 10;

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Helpers;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -68,7 +69,7 @@ class User extends Authenticatable
      */
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = ucfirst($value);
+        $this->attributes['name'] = Helpers::ucfirst_utf8($value);
     }
 
     /**
@@ -78,7 +79,7 @@ class User extends Authenticatable
      */
     public function setSurnameAttribute($value)
     {
-        $this->attributes['surname'] = ucfirst($value);
+        $this->attributes['surname'] = Helpers::ucfirst_utf8($value);
     }
 
     /**
@@ -88,6 +89,6 @@ class User extends Authenticatable
      */
     public function setPatronymicAttribute($value)
     {
-        $this->attributes['patronymic'] = ucfirst($value);
+        $this->attributes['patronymic'] = Helpers::ucfirst_utf8($value);
     }
 }

@@ -29,8 +29,8 @@ class Order extends Model
     {
         parent::boot();
 
-        static::saving(function ($order) {
-            $user = $order->user;
+        static::saving(function ($model) {
+            $user = $model->user;
 
             $address = "Индекс: {$user->address_index}";
             $address .= ", город/ населенный пункт: {$user->address_city}";
@@ -40,10 +40,10 @@ class Order extends Model
             $address .= ", п.: {$user->address_porch}";
             $address .= ", кв.: {$user->address_apartment}";
             $address .= ", комментарий: {$user->address_comment}";
-            $order->address = $address;
+            $model->address = $address;
 
-            $products = $order->products;
-            $order->total = collect($products)->map(function ($item) {
+            $products = $model->products;
+            $model->total = collect($products)->map(function ($item) {
                 $sum = round($item['orderItem']['price'] * $item['orderItem']['count'], 2);
 
                 return [$sum];

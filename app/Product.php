@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -19,6 +20,16 @@ class Product extends Model
     protected $dates = [
         'deleted_at',
     ];
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->slug = str_slug($model->name);
+        });
+    }
 
     /**
      * Categories relation
@@ -47,23 +58,7 @@ class Product extends Model
      */
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = ucfirst($value);
-    }
-
-    /**
-     * Slug attribute mutator
-     *
-     * @param null $value
-     */
-    public function setSlugAttribute($value = null)
-    {
-        if (empty($value)) {
-            $slug = str_slug($this->attributes['name'], '-');
-        } else {
-            $slug = str_slug($value, '-');
-        }
-
-        $this->attributes['slug'] = $slug;
+        $this->attributes['name'] = Helpers::ucfirst_utf8($value);
     }
 
 }
