@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
+use App\Image;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Storage;
 
 class ProductsController extends Controller
 {
@@ -18,10 +23,222 @@ class ProductsController extends Controller
 
     public function index(Request $request)
     {
-        $products = Product::query()
+        $categories = Category::query()
             ->orderBy('name')
-            ->forPage($request->get('page', $this->page), $this->perPage);
+            ->get()
+            ->pluck('name', 'id');
 
-        dd($products);
+        $productsQ = Product::query()
+            ->with([
+                'categories' => function ($q) use ($request) {
+                    $q->orderBy('name');
+                },
+                'images'     => function ($q) {
+                    $q->orderBy('is_default', 'desc');
+                },
+            ]);
+
+        if ($request->filled('category')) {
+            $productsQ->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', (int)$request->get('category'));
+            });
+        }
+
+        $products = $productsQ->orderBy('name')->paginate($this->perPage);
+
+        return view('admin.products.index', [
+            'categories' => $categories,
+            'products'   => $products,
+        ]);
+    }
+
+    public function create()
+    {
+        $categories = Category::query()
+            ->orderBy('name')
+            ->get()
+            ->pluck('name', 'id');
+
+        return view('admin.products.create', ['categories' => $categories]);
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name'         => 'required|unique:products|max:255',
+            'description'  => 'nullable',
+            'price'        => 'required|numeric',
+            'is_available' => 'boolean',
+        ]);
+
+
+        $product = (new Product())->fill($validatedData);
+        try {
+            $product->save();
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.products.create')
+                ->withInput()
+                ->with('error', 'Ой! Что-то пошло не так...');
+        }
+
+        if ($request->filled('categories')) {
+            $categoriesIds = Category::query()
+                ->whereIn('id', $request->input('categories'))
+                ->get()
+                ->pluck('id');
+
+            $product->categories()->sync($categoriesIds);
+        }
+
+
+        if ($request->hasFile('images')) {
+            $defaultImage = false;
+            foreach ($request->file('images') as $file) {
+
+                if (!$defaultImage) {
+                    $defaultImage = true;
+                }
+                $imgName = $product->id . '--' . (string)Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+                try {
+                    $path = Storage::disk('public')->putFileAs("images/products", $file, $imgName);
+
+                    $image = new Image();
+                    $image->src = $path;
+                    $image->is_default = $defaultImage;
+
+                    try {
+                        $image->product()->associate($product);
+                        $image->save();
+                    } catch (\Exception $e) {
+                        Storage::disk('public')->delete($path);
+                    }
+
+                } catch (\Exception $e) {
+                    \Log::debug('Save product image', $e->getTrace());
+                }
+            }
+        }
+
+        if ($product->images()->count()) {
+            if (!$product->images()->where('is_default', 1)->count()) {
+                $image = $product->images()->first();
+                $image->is_default = true;
+                $image->save();
+            }
+        }
+
+        return redirect()
+            ->route('admin.products.index')
+            ->with('status', "Новый товар <strong>{$product->name}</strong> успешно добавлен!");
+    }
+
+    public function edit(Product $product)
+    {
+        $product->load(['categories', 'images' => function ($q) {
+            $q->orderBy('is_default', 'desc');
+        }]);
+
+        $categories = Category::query()
+            ->orderBy('name')
+            ->get()
+            ->pluck('name', 'id');
+
+        return view('admin.products.edit', ['product' => $product, 'categories' => $categories]);
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $validatedData = $request->validate([
+            'name'         => [
+                'required',
+                Rule::unique('products')->ignore($product->id),
+                'max:255',
+            ],
+            'description'  => 'nullable',
+            'price'        => 'required|numeric',
+            'is_available' => 'boolean',
+        ]);
+
+
+        $product->fill($validatedData);
+        try {
+            $product->save();
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.products.edit')
+                ->withInput()
+                ->with('error', 'Ой! Что-то пошло не так...');
+        }
+
+        if ($request->filled('categories')) {
+            $categoriesIds = Category::query()
+                ->whereIn('id', $request->input('categories'))
+                ->get()
+                ->pluck('id');
+
+            $product->categories()->sync($categoriesIds);
+        }
+
+        if ($request->filled('remove_images')) {
+            $product->images()->whereIn('id', $request->input('remove_images'))->delete();
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $imgName = $product->id . '--' . (string)Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+                try {
+                    $path = Storage::disk('public')->putFileAs("images/products", $file, $imgName);
+
+                    $image = new Image();
+                    $image->src = $path;
+                    $image->is_default = false;
+
+                    try {
+                        $image->product()->associate($product);
+                        $image->save();
+                    } catch (\Exception $e) {
+                        Storage::disk('public')->delete($path);
+                    }
+
+                } catch (\Exception $e) {
+                    \Log::debug('Save product image', $e->getTrace());
+                }
+            }
+        }
+
+        if ($product->images()->count()) {
+            if ($request->filled('default_image') && $product->images()->where('id', $request->input('default_image'))) {
+                $product->images()->update(['is_default' => 0]);
+                $product->images()->where('id', $request->input('default_image'))->update(['is_default' => 1]);
+            } else {
+                if (!$product->images()->where('is_default', 1)->count()) {
+                    $image = $product->images()->first();
+                    $image->is_default = true;
+                    $image->save();
+                }
+            }
+        }
+
+        return redirect()
+            ->route('admin.products.index')
+            ->with('status', "Товар <strong>{$product->name}</strong> успешно сохранен!");
+    }
+
+    public function destroy(Product $product)
+    {
+        try {
+            $product->delete();
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.products.index')
+                ->with('error', 'Ой! Что-то пошло не так...');
+        }
+
+        return redirect()
+            ->route('admin.products.index')
+            ->with('status', "Товар <strong>{$product->name}</strong> успешно удален!");
     }
 }

@@ -25,6 +25,10 @@ Route::group(['prefix' => '/profile'], function () {
 
 });
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+});
+
 Route::group(['prefix' => 'admin'], function () {
 
     // Orders
@@ -44,6 +48,13 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     // Products
-    Route::get('products', 'Admin\ProductsController@index')->name('admin.products.index');
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/', 'Admin\ProductsController@index')->name('admin.products.index');
+        Route::get('create', 'Admin\ProductsController@create')->name('admin.products.create');
+        Route::post('store', 'Admin\ProductsController@store')->name('admin.products.store');
+        Route::get('edit/{product}', 'Admin\ProductsController@edit')->name('admin.products.edit');
+        Route::put('update/{product}', 'Admin\ProductsController@update')->name('admin.products.update');
+        Route::delete('destroy/{product}', 'Admin\ProductsController@destroy')->name('admin.products.destroy');
+    });
 
 });

@@ -1,22 +1,38 @@
-
 /**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+ * First, we will load all of this project's Javascript utilities and other
+ * dependencies. Then, we will be ready to develop a robust and powerful
+ * application frontend using useful Laravel and JavaScript libraries.
  */
 
-require('./bootstrap');
+// require('./bootstrap');
 
-window.Vue = require('vue');
+window.urlInsertParam = function insertParam(key, value) {
+    key = escape(key);
+    value = escape(value);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+    var kvp = document.location.search.substr(1).split('&');
+    if (kvp == '') {
+        document.location.search = '?' + key + '=' + value;
+    }
+    else {
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+        var i = kvp.length;
+        var x;
+        while (i--) {
+            x = kvp[i].split('=');
 
-const app = new Vue({
-    el: '#app'
-});
+            if (x[0] == key) {
+                x[1] = value;
+                kvp[i] = x.join('=');
+                break;
+            }
+        }
+
+        if (i < 0) {
+            kvp[kvp.length] = [key, value].join('=');
+        }
+
+        //this will reload the page, it's likely better to store this until finished
+        document.location.search = kvp.join('&');
+    }
+};

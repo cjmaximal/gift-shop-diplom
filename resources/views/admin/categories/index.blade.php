@@ -3,14 +3,8 @@
 @section('title', 'Категории')
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2">
-                <a href="{{ route('admin.categories.create') }}" class="btn btn-outline-dark btn-md btn-block">
-                    <span class="oi oi-plus" title="Создать" aria-hidden="true"></span>
-                    Создать
-                </a>
-            </div>
-            <div class="col-md-10">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
 
                 @if (session('status'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -30,8 +24,13 @@
                     </div>
                 @endif
 
-                <div class="card border-info">
-                    <h5 class="card-header bg-info text-white">Категории</h5>
+                <div class="card border-dark">
+                    <h4 class="card-header bg-dark text-white">
+                        Категории
+                        <a href="{{ route('admin.categories.create') }}" class="btn btn-success btn-sm">
+                            <span class="oi oi-plus" title="Добваить" aria-hidden="true"></span>
+                        </a>
+                    </h4>
                     <div class="card-body p-0">
                         <table class="table">
                             <thead class="thead-light">

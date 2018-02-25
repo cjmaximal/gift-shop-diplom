@@ -43,7 +43,8 @@ class CategoriesController extends Controller
             $category->save();
         } catch (\Exception $e) {
             return redirect()
-                ->route('admin.categories.index')
+                ->route('admin.categories.create')
+                ->withInput()
                 ->with('error', 'Ой! Что-то пошло не так...');
         }
 

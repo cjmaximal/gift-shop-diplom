@@ -15,8 +15,8 @@
                     </div>
                 @endif
 
-                <div class="card border-info">
-                    <h5 class="card-header bg-info text-light">Редактирование категории</h5>
+                <div class="card border-dark">
+                    <h4 class="card-header bg-dark text-light">Редактирование категории</h4>
                     <div class="card-body">
 
                         <form action="{{ route('admin.categories.update', ['category' => $category]) }}" method="POST">

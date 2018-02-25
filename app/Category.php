@@ -15,8 +15,8 @@ class Category extends Model
     {
         parent::boot();
 
-        static::saving(function ($category) {
-            $category->slug = str_slug($category->name, '-');
+        static::saving(function ($model) {
+            $model->slug = str_slug($model->name);
         });
     }
 

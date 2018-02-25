@@ -14,6 +14,7 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'is_available',
     ];
 
     protected $dates = [
@@ -58,6 +59,16 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    /**
+     * Images relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
     /**
