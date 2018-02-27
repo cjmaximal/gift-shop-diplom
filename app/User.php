@@ -42,6 +42,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    public function isAdmin()
+    {
+        return (bool)$this->is_admin;
+    }
+
     /**
      * Orders relation
      *

@@ -15,6 +15,7 @@ class Product extends Model
         'description',
         'price',
         'is_available',
+        'rating',
     ];
 
     protected $dates = [
@@ -48,7 +49,7 @@ class Product extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->orderBy('name');
     }
 
     /**
@@ -68,7 +69,7 @@ class Product extends Model
      */
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->orderBy('is_default', 'desc');
     }
 
     /**

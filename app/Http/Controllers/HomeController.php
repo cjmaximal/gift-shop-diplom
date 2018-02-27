@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use Cache;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $categories = Cache::rememberForever('categories', function () {
+            return Category::query()->orderBy('name')->get();
+        });
+
+        return view('home', [
+            'categories' => $categories,
+        ]);
     }
 
     public function contacts()

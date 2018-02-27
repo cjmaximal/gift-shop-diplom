@@ -38,25 +38,25 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item {{ Route::currentRouteNamed('admin.orders.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.orders.index') }}" class="nav-link">
-                            <span class="oi oi-document" title="icon document" aria-hidden="true"></span>
+                            <span class="oi oi-document" title="Заказы" aria-hidden="true"></span>
                             Заказы
                         </a>
                     </li>
                     <li class="nav-item {{ Route::currentRouteNamed('admin.users.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.users.index') }}" class="nav-link">
-                            <span class="oi oi-people" title="icon people" aria-hidden="true"></span>
+                            <span class="oi oi-people" title="Пользователи" aria-hidden="true"></span>
                             Пользователи
                         </a>
                     </li>
                     <li class="nav-item {{ Route::currentRouteNamed('admin.categories.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.categories.index') }}" class="nav-link">
-                            <span class="oi oi-list" title="icon list" aria-hidden="true"></span>
+                            <span class="oi oi-list" title="Категории" aria-hidden="true"></span>
                             Категории
                         </a>
                     </li>
                     <li class="nav-item {{ Route::currentRouteNamed('admin.products.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.products.index') }}" class="nav-link">
-                            <span class="oi oi-list-rich" title="icon list-rich" aria-hidden="true"></span>
+                            <span class="oi oi-list-rich" title="Товары" aria-hidden="true"></span>
                             Товары
                         </a>
                     </li>
@@ -70,9 +70,13 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('home.index') }}">
+                                <span class="oi oi-home" title="Главная страница" aria-hidden="true"></span>
+                                Главная страница
+                            </a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                <span class="oi oi-account-logout" title="icon account-logout" aria-hidden="true"></span>
+                                <span class="oi oi-account-logout" title="Выйти" aria-hidden="true"></span>
                                 Выйти
                             </a>
 

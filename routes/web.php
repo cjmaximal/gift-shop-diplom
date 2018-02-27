@@ -11,12 +11,14 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
+Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/contacts', 'HomeController@contacts')->name('home.contacts');
 Route::get('/conditions', 'HomeController@conditions')->name('home.conditions');
+
+Route::get('/catalog/{category}', 'CategoryController@show')->name('home.categories.show');
 
 Route::group(['prefix' => '/profile'], function () {
 
@@ -30,6 +32,12 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
+
+    Route::redirect('/', '/dashboard', 301);
+
+    Route::get('/dashboard', function (Request $request) {
+        dd(Auth::user());
+    })->name('admin.dashboard');
 
     // Orders
     Route::get('orders', 'Admin\OrdersController@index')->name('admin.orders.index');

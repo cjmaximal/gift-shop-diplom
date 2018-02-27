@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Helpers;
+use Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -17,6 +18,7 @@ class Category extends Model
 
         static::saving(function ($model) {
             $model->slug = str_slug($model->name);
+            Cache::forget('categories');
         });
     }
 

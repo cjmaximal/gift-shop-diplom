@@ -13,7 +13,6 @@ use Storage;
 
 class ProductsController extends Controller
 {
-    private $page = 1;
     private $perPage = 10;
 
     public function __construct()
@@ -28,15 +27,7 @@ class ProductsController extends Controller
             ->get()
             ->pluck('name', 'id');
 
-        $productsQ = Product::query()
-            ->with([
-                'categories' => function ($q) use ($request) {
-                    $q->orderBy('name');
-                },
-                'images'     => function ($q) {
-                    $q->orderBy('is_default', 'desc');
-                },
-            ]);
+        $productsQ = Product::query()->with(['categories', 'images']);
 
         if ($request->filled('category')) {
             $productsQ->whereHas('categories', function ($q) use ($request) {

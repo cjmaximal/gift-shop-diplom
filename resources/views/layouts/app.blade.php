@@ -36,7 +36,18 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-
+                    <li class="nav-item {{ Route::currentRouteNamed('home.contacts') ? 'active' : '' }}">
+                        <a href="{{ route('home.contacts') }}" class="nav-link">
+                            <span class="oi oi-map-marker" title="Контакты" aria-hidden="true"></span>
+                            Контакты
+                        </a>
+                    </li>
+                    <li class="nav-item {{ Route::currentRouteNamed('home.conditions') ? 'active' : '' }}">
+                        <a href="{{ route('home.conditions') }}" class="nav-link">
+                            <span class="oi oi-spreadsheet" title="Условия работы" aria-hidden="true"></span>
+                            Условия работы
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -51,6 +62,12 @@
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @if(Auth::user()->isAdmin())
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                        <span class="oi oi-cog" title="Управление сайтом" aria-hidden="true"></span>
+                                        Управление сайтом
+                                    </a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                     <span class="oi oi-account-logout" title="icon account-logout" aria-hidden="true"></span>
