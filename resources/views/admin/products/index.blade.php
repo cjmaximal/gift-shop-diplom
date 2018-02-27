@@ -115,9 +115,10 @@
                     </div>
                 </div>
 
-                {{ $products->links() }}
-
             </div>
+        </div>
+        <div class="row justify-content-center mt-1">
+            {{ $products->appends(['category' => request()->get('category')])->links() }}
         </div>
     </div>
     <script>
@@ -129,7 +130,7 @@
             $('#filter-category').change(function () {
                 if ($(this).val() !== 'all') {
                     window.urlInsertParam('category', $(this).val());
-                }else{
+                } else {
                     window.urlInsertParam('category', '');
                 }
             });
