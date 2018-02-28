@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Cache::rememberForever('categories', function () {
-            return Category::query()->orderBy('name')->get();
+            return Category::query()->orderBy('name')->has('products')->get();
         });
 
         dd($categories);
@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $priceTo = (float)$request->input('price_to', Product::query()->max('price'));
 
         $categories = Cache::rememberForever('categories', function () {
-            return Category::query()->orderBy('name')->get();
+            return Category::query()->orderBy('name')->has('products')->get();
         });
 
         $products = $category->products()

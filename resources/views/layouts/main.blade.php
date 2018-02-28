@@ -24,7 +24,7 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+    <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-primary" style="box-shadow: #343a40 2px 0 10px;">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Gift-Shop') }}
@@ -86,7 +86,43 @@
     </nav>
 
     <main class="py-3">
-        @yield('content')
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    @yield('sidebar')
+                </div>
+                <div class="col-md-9">
+                    @if(!Route::currentRouteNamed('home.index'))
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('home.index') }}">
+                                        Главная
+                                    </a>
+                                </li>
+                                @if(Route::currentRouteNamed('home.contacts'))
+                                    <li class="breadcrumb-item">Контакты</li>
+                                @endif
+                                @if(Route::currentRouteNamed('home.conditions'))
+                                    <li class="breadcrumb-item">Условия работы</li>
+                                @endif
+
+                                @if(Route::currentRouteNamed('home.categories.*'))
+                                    <li class="breadcrumb-item">Каталог</li>
+                                @endif
+                                @if(Route::currentRouteNamed('home.categories.show'))
+                                    <li class="breadcrumb-item {{ Route::currentRouteNamed('home.categories.show') ? 'active' : '' }}"
+                                            {{ Route::currentRouteNamed('home.categories.show') ? 'aria-current="page"' : '' }}>{{ $category->name }}</li>
+                                @endif
+
+                            </ol>
+                        </nav>
+                    @endif
+
+                    @yield('content')
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 </body>

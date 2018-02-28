@@ -11,11 +11,31 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $categories = Cache::rememberForever('categories', function () {
-            return Category::query()->orderBy('name')->get();
+            return Category::query()->orderBy('name')->has('products')->get();
+        });
+
+        $categoriesCollectionChunk = collect($categories)
+            ->filter(function (Category $item) {
+                return $item->products()->count() >= 3;
+            })
+            ->shuffle()
+            ->chunk(3)
+            ->first();
+
+        $products = $categoriesCollectionChunk->map(function (Category $categoryItem) {
+            return [
+                'category' => $categoryItem,
+                'products' => $categoryItem
+                    ->products()
+                    ->with(['categories', 'images'])
+                    ->limit(4)
+                    ->get(),
+            ];
         });
 
         return view('home', [
-            'categories' => $categories,
+            'categories'         => $categories,
+            'categoriesProducts' => $products,
         ]);
     }
 
