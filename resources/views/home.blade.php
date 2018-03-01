@@ -12,7 +12,7 @@
             <ul class="list-group list-group-flush">
                 @foreach($categories as $categoryItem)
                     <li class="list-group-item {{ Route::current()->parameter('category') === $categoryItem->slug }}">
-                        <a href="{{ route('home.categories.show', ['category' => $categoryItem->id]) }}">{{ $categoryItem->name }}</a>
+                        <a href="{{ route('home.categories.show', ['category' => $categoryItem->slug]) }}">{{ $categoryItem->name }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -20,18 +20,6 @@
     </div>
 @endsection
 @section('content')
-    <style>
-        .button-add-to-card {
-            transition: all .1s ease-in;
-        }
-
-        .button-add-to-card:active,
-        .button-add-to-card:hover {
-            font-weight: bolder;
-            color: #ffffff;
-            background-color: #343a40 !important;
-        }
-    </style>
     <div class="row justify-content-center">
         <div class="col-md-12">
             @if (session('status'))
@@ -49,7 +37,7 @@
             <div class="col-md-12">
                 <div class="card border-{{ $colors[$loop->index] }}">
                     <div class="card-header bg-{{ $colors[$loop->index] }} font-weight-bold text-uppercase">
-                        <a class="text-white" href="{{ route('home.categories.show', ['category' => $categoriesProduct['category']->id]) }}">
+                        <a class="text-white" href="{{ route('home.categories.show', ['category' => $categoriesProduct['category']->slug]) }}">
                             {{ $categoriesProduct['category']->name }}
                         </a>
                     </div>
@@ -65,7 +53,10 @@
                                                 'filename' => basename($product->images->first()->src),
                                             ]) }}" alt="{{ $product->name }}">
                                     <div class="card-body">
-                                        <h5 class="card-title text-center">{{ $product->name }}</h5>
+                                        <h5 class="text-danger text-center font-weight-bold">
+                                            {{ number_format($product->price, 2, ',', ' ') }} &#8381;
+                                        </h5>
+                                        <h6 class="card-title font-weight-bold text-center">{{ $product->name }}</h6>
                                         <small class="card-text text-muted">{{ str_limit($product->description, 100) }}</small>
                                     </div>
                                     <div class="card-footer bg-{{ $colors[$loop->parent->index] }}">

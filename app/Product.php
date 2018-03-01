@@ -15,7 +15,6 @@ class Product extends Model
         'description',
         'price',
         'is_available',
-        'rating',
     ];
 
     protected $dates = [

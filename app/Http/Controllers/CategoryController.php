@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private $perPage = 10;
+    private $perPage = 12;
 
     public function index(Request $request)
     {
@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
     public function show(Request $request, Category $category)
     {
-        $sort = in_array($request->input('sort'), ['created_at', 'name', 'price', 'rating']) ? $request->input('sort') : 'price';
+        $sort = in_array($request->input('sort'), ['created_at', 'name', 'price']) ? $request->input('sort') : 'price';
         $dir = in_array($request->input('dir'), ['asc', 'desc']) ? $request->input('dir') : 'asc';
         $priceFrom = (float)$request->input('price_from', 0);
         $priceTo = (float)$request->input('price_to', Product::query()->max('price'));
@@ -39,7 +39,10 @@ class CategoryController extends Controller
 
         return view('categories', [
             'categories' => $categories,
+            'category'   => $category,
             'products'   => $products,
+            'dir'        => $dir,
+            'sort'       => $sort,
         ]);
     }
 }

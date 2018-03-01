@@ -1,0 +1,9 @@
+.button-add-to-card {
+  transition: all .1s ease-in;
+
+  &:hover, &:active {
+    font-weight: bolder;
+    color: #ffffff;
+    background-color: #343a40 !important;
+  }
+}
