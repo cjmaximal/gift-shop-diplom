@@ -36,49 +36,59 @@
 
                 {{-- Filter --}}
                 <div class="card-header bg-light text-uppercase">
-                    <div class="btn-group">
-                        <a href="{{ route('home.categories.show', [
+                    <div class="row">
+                        {{-- Sort --}}
+                        <div class="col-md-3">
+                            <div class="btn-group">
+                                <a href="{{ route('home.categories.show', [
                             'category' => $category->slug,
                             'dir' => $dir,
                             'sort' => 'price',
                             'page' => $products->currentPage(),
                         ]) }}" class="btn btn-sm font-weight-bold {{ $sort == 'price' ? 'btn-primary ' : 'btn-outline-secondary' }}">
-                            Цена
-                        </a>
-                        <a href="{{ route('home.categories.show', [
+                                    Цена
+                                </a>
+                                <a href="{{ route('home.categories.show', [
                             'category' => $category->slug,
                             'dir' => $dir,
                             'sort' => 'name',
                             'page' => $products->currentPage(),
                         ]) }}" class="btn btn-sm font-weight-bold {{ $sort == 'name' ? 'btn-primary active' : 'btn-outline-secondary' }}">
-                            Название
-                        </a>
-                        <a href="{{ route('home.categories.show', [
+                                    Название
+                                </a>
+                                <a href="{{ route('home.categories.show', [
                             'category' => $category->slug,
                             'dir' => $dir,
                             'sort' => 'created_at',
                             'page' => $products->currentPage(),
                         ]) }}" class="btn btn-sm font-weight-bold {{ $sort == 'created_at' ? 'btn-primary active' : 'btn-outline-secondary' }}">
-                            Дата
-                        </a>
-                    </div>
-                    <div class="btn-group">
-                        <a href="{{ route('home.categories.show', [
+                                    Дата
+                                </a>
+                            </div>
+                        </div>
+                        {{-- Sort End --}}
+                        {{-- Direction --}}
+                        <div class="col-md-3">
+                            <div class="btn-group">
+                                <a href="{{ route('home.categories.show', [
                             'category' => $category->slug,
                             'dir' => 'asc',
                             'sort' => $sort,
                             'page' => $products->currentPage(),
                         ]) }}" class="btn btn-sm {{ $dir == 'asc' ? 'btn-primary active' : 'btn-outline-secondary' }}">
-                            <span class="oi oi-caret-top" title="По возрастанию" aria-hidden="true"></span>
-                        </a>
-                        <a href="{{ route('home.categories.show', [
+                                    <span class="oi oi-caret-top" title="По возрастанию" aria-hidden="true"></span>
+                                </a>
+                                <a href="{{ route('home.categories.show', [
                             'category' => $category->slug,
                             'dir' => 'desc',
                             'sort' => $sort,
                             'page' => $products->currentPage(),
                         ]) }}" class="btn btn-sm {{ $dir == 'desc' ? 'btn-primary active' : 'btn-outline-secondary' }}">
-                            <span class="oi oi-caret-bottom" title="По убыванию" aria-hidden="true"></span>
-                        </a>
+                                    <span class="oi oi-caret-bottom" title="По убыванию" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                        </div>
+                        {{-- Direction End --}}
                     </div>
                 </div>
                 {{-- Filter End --}}
@@ -94,7 +104,7 @@
                     @foreach($products->chunk($productsBy) as $chunk)
                         <div class="card-deck mb-3">
                             @foreach($chunk as $product)
-                                <div class="card border-primary">
+                                <div class="card border-primary col-md-3 p-0">
                                     <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'large',
                                                 'filename' => basename($product->images->first()->src),
