@@ -7,3 +7,12 @@
     background-color: #343a40 !important;
   }
 }
+
+a {
+  text-decoration-skip: ink;
+}
+
+.custom-link {
+  color: #007bff;
+  text-decoration-skip: ink;
+}

@@ -19,6 +19,7 @@ Route::get('/contacts', 'HomeController@contacts')->name('home.contacts');
 Route::get('/conditions', 'HomeController@conditions')->name('home.conditions');
 
 Route::get('/catalog/{category}', 'CategoryController@show')->name('home.categories.show');
+Route::get('/catalog/{category}/product/{product}', 'ProductController@show')->name('home.product.show');
 
 Route::group(['prefix' => '/profile'], function () {
 

@@ -48,15 +48,19 @@
                         <div class="card-deck">
                             @foreach($categoriesProduct['products'] as $product)
                                 <div class="card border-{{ $colors[$loop->parent->index] }}">
-                                    <img class="card-img-top" src="{{ route('imagecache', [
+                                    <a class="custom-link" href="{{ route('home.product.show', ['category' => $categoriesProduct['category']->slug, 'product' => $product->slug]) }}">
+                                        <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'medium',
                                                 'filename' => basename($product->images->first()->src),
                                             ]) }}" alt="{{ $product->name }}">
+                                    </a>
                                     <div class="card-body">
                                         <h5 class="text-danger text-center font-weight-bold">
                                             {{ number_format($product->price, 2, ',', ' ') }} &#8381;
                                         </h5>
-                                        <h6 class="card-title font-weight-bold text-center">{{ $product->name }}</h6>
+                                        <a class="custom-link" href="{{ route('home.product.show', ['category' => $categoriesProduct['category']->slug, 'product' => $product->slug]) }}">
+                                            <h6 class="card-title font-weight-bold text-center">{{ $product->name }}</h6>
+                                        </a>
                                         <small class="card-text text-muted">{{ str_limit($product->description, 100) }}</small>
                                     </div>
                                     <div class="card-footer bg-{{ $colors[$loop->parent->index] }}">

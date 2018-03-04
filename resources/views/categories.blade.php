@@ -105,15 +105,19 @@
                         <div class="card-deck mb-3">
                             @foreach($chunk as $product)
                                 <div class="card border-primary col-md-3 p-0">
-                                    <img class="card-img-top" src="{{ route('imagecache', [
+                                    <a class="custom-link" href="{{ route('home.product.show', ['category'=>$category->slug, 'product' => $product->slug]) }}">
+                                        <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'large',
                                                 'filename' => basename($product->images->first()->src),
                                             ]) }}" alt="{{ $product->name }}">
+                                    </a>
                                     <div class="card-body">
                                         <h5 class="text-danger text-center font-weight-bold">
                                             {{ number_format($product->price, 2, ',', ' ') }} &#8381;
                                         </h5>
-                                        <h6 class="card-title font-weight-bold text-center">{{ $product->name }}</h6>
+                                        <a class="custom-link" href="{{ route('home.product.show', ['category'=>$category->slug, 'product' => $product->slug]) }}">
+                                            <h6 class="card-title font-weight-bold text-center">{{ $product->name }}</h6>
+                                        </a>
                                         <small class="card-text text-muted">{{ str_limit($product->description, 110) }}</small>
                                     </div>
                                     <div class="card-footer bg-primary">

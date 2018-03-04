@@ -1,1 +1,23 @@
-.button-add-to-card{-webkit-transition:all .1s ease-in;transition:all .1s ease-in}.button-add-to-card:active,.button-add-to-card:hover{font-weight:bolder;color:#fff;background-color:#343a40!important}
+.button-add-to-card {
+  -webkit-transition: all .1s ease-in;
+  transition: all .1s ease-in;
+}
+
+.button-add-to-card:hover,
+.button-add-to-card:active {
+  font-weight: bolder;
+  color: #ffffff;
+  background-color: #343a40 !important;
+}
+
+a {
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip: ink;
+}
+
+.custom-link {
+  color: #007bff;
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip: ink;
+}
+

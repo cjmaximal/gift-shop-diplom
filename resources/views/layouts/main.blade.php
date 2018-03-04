@@ -21,6 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="{{ asset('vendors/jquery.number.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
 <body>
@@ -97,7 +98,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('home.index') }}">
+                                    <a class="custom-link" href="{{ route('home.index') }}">
                                         Главная
                                     </a>
                                 </li>
@@ -108,14 +109,25 @@
                                     <li class="breadcrumb-item">Условия работы</li>
                                 @endif
 
-                                @if(Route::currentRouteNamed('home.categories.*'))
+                                @if(Route::currentRouteNamed('home.categories.*') || Route::currentRouteNamed('home.product.show'))
                                     <li class="breadcrumb-item">Каталог</li>
                                 @endif
-                                @if(Route::currentRouteNamed('home.categories.show'))
+                                @if(Route::currentRouteNamed('home.categories.show') || Route::currentRouteNamed('home.product.show'))
                                     <li class="breadcrumb-item {{ Route::currentRouteNamed('home.categories.show') ? 'active' : '' }}"
-                                            {{ Route::currentRouteNamed('home.categories.show') ? 'aria-current="page"' : '' }}>{{ $category->name }}</li>
+                                            {{ Route::currentRouteNamed('home.categories.show') ? 'aria-current="page"' : '' }}>
+                                        <a class="custom-link" href="{{ route('home.categories.show', ['category' => $category->slug]) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
                                 @endif
-
+                                @if(Route::currentRouteNamed('home.product.show'))
+                                    <li class="breadcrumb-item {{ Route::currentRouteNamed('home.product.show') ? 'active' : '' }}"
+                                            {{ Route::currentRouteNamed('home.product.show') ? 'aria-current="page"' : '' }}>
+                                        <a class="custom-link" href="{{ route('home.product.show', ['category' => $category->slug, 'product' => $product->slug]) }}">
+                                            {{ $product->name }}
+                                        </a>
+                                    </li>
+                                @endif
                             </ol>
                         </nav>
                     @endif
