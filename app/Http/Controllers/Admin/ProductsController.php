@@ -84,20 +84,15 @@ class ProductsController extends Controller
 
 
         if ($request->hasFile('images')) {
-            $defaultImage = false;
+            $defaultImage = 0;
             foreach ($request->file('images') as $file) {
-
-                if (!$defaultImage) {
-                    $defaultImage = true;
-                }
                 $imgName = $product->id . '--' . (string)Str::uuid() . '.' . $file->getClientOriginalExtension();
-
                 try {
                     $path = Storage::disk('public')->putFileAs("images/products", $file, $imgName);
 
                     $image = new Image();
                     $image->src = $path;
-                    $image->is_default = $defaultImage;
+                    $image->is_default = $defaultImage == 0;
 
                     try {
                         $image->product()->associate($product);
@@ -106,6 +101,7 @@ class ProductsController extends Controller
                         Storage::disk('public')->delete($path);
                     }
 
+                    $defaultImage++;
                 } catch (\Exception $e) {
                     \Log::debug('Save product image', $e->getTrace());
                 }

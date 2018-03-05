@@ -127,7 +127,8 @@
                                                                                        value="{{ $image->id }}"
                                                                                         {{ $image->is_default ? 'checked' : '' }} >
                                                                                 <label class="custom-control-label" for="defaultImageRadio{{ $image->id }}">
-                                                                                    По умолчанию</label>
+                                                                                    По умолчанию
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>

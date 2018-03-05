@@ -32,19 +32,19 @@
                         </a>
                     </h4>
                     <div class="card-body p-0">
-                        <table class="table">
+                        <table class="table table-striped">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col" class="col-1">#</th>
-                                <th scope="col" class="col-auto">Название</th>
-                                <th scope="col" class="col-auto">Ярлык</th>
-                                <th scope="col" class="col-1">Операции</th>
+                                <th scope="col" width="5%">#</th>
+                                <th scope="col">Название</th>
+                                <th scope="col">Ярлык</th>
+                                <th scope="col" width="5%">Операции</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($categories as $category)
                                 <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <th scope="row">{{ $category->id }}</th>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
                                     <td>

@@ -41,24 +41,24 @@
                         </span>
                     </h4>
                     <div class="card-body p-0">
-                        <table class="table">
+                        <table class="table table-striped">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col" class="col-1">#</th>
-                                <th scope="col" class="col-1">Изображение</th>
-                                <th scope="col" class="col-auto">Название</th>
-                                <th scope="col" class="col-auto">Категории</th>
-                                <th scope="col" class="col-auto">Ярлык</th>
-                                <th scope="col" class="col-auto">Описание</th>
-                                <th scope="col" class="col-1">Цена</th>
-                                <th scope="col" class="col-1">В наличии</th>
-                                <th scope="col" class="col-1">Операции</th>
+                                <th scope="col" width="5%">#</th>
+                                <th scope="col">Изображение</th>
+                                <th scope="col">Название</th>
+                                <th scope="col">Категории</th>
+                                <th scope="col">Ярлык</th>
+                                <th scope="col">Описание</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col">В&nbsp;наличии</th>
+                                <th scope="col" width="5%">Операции</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($products as $product)
                                 <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <th scope="row">{{ $product->id }}</th>
                                     <td>
                                         @if($product->images->count())
                                             <div class="text-center">
@@ -88,7 +88,7 @@
                                     </td>
                                     <td>{{ $product->slug }}</td>
                                     <td>{{ str_limit($product->description, 50) }}</td>
-                                    <td>{{ $product->price }} руб.</td>
+                                    <td>{{ $product->price }}</td>
                                     <td>
                                         <span class="badge badge-{{ $product->is_available ? 'success' : 'danger' }}">
                                             {{ $product->is_available ? 'Да' : 'Нет' }}
