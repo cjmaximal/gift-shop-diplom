@@ -123,8 +123,11 @@
                                 @if(Route::currentRouteNamed('home.product.show'))
                                     <li class="breadcrumb-item {{ Route::currentRouteNamed('home.product.show') ? 'active' : '' }}"
                                             {{ Route::currentRouteNamed('home.product.show') ? 'aria-current="page"' : '' }}>
-                                        <a class="custom-link" href="{{ route('home.product.show', ['category' => $category->slug, 'product' => $product->slug]) }}">
-                                            {{ $product->name }}
+                                        <a class="custom-link" href="{{ route('home.product.show', [
+                                                'category' => Route::current()->parameter('category')->slug,
+                                                'product' => Route::current()->parameter('product')->slug,
+                                            ]) }}">
+                                            {{ Route::current()->parameter('product')->name }}
                                         </a>
                                     </li>
                                 @endif
