@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Helpers;
+use Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -28,6 +29,7 @@ class Product extends Model
 
         static::saving(function ($model) {
             $model->slug = str_slug($model->name);
+            Cache::forget('categories');
         });
     }
 
