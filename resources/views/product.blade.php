@@ -146,23 +146,29 @@
                     <div class="card-body">
                         <h4 class="card-title text-danger mb-4">Рекомендуемые товары</h4>
 
+                        @php
+                            $productsBy = 4;
+                                if($category->products->where('id', '!=', $product->id)->count() % 4 == 1){
+                                    $productsBy = 3;
+                                }
+                        @endphp
                         <div class="card-deck mb-3">
-                            @foreach($category->products as $product)
-                                <div class="card border-primary col-md-3 p-0">
-                                    <a class="custom-link" href="{{ route('home.product.show', ['category' => $category->slug, 'product' => $product->slug]) }}">
+                            @foreach($category->products->where('id', '!=', $product->id) as $recProduct)
+                                <div class="card border-primary col-md-{{ $productsBy }} p-0">
+                                    <a class="custom-link" href="{{ route('home.product.show', ['category' => $category->slug, 'product' => $recProduct->slug]) }}">
                                         <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'large',
-                                                'filename' => basename($product->images->first()->src),
-                                            ]) }}" alt="{{ $product->name }}">
+                                                'filename' => basename($recProduct->images->first()->src),
+                                            ]) }}" alt="{{ $recProduct->name }}">
                                     </a>
                                     <div class="card-body">
                                         <h5 class="text-danger text-center font-weight-bold">
-                                            {{ number_format($product->price, 2, ',', ' ') }} &#8381;
+                                            {{ number_format($recProduct->price, 2, ',', ' ') }} &#8381;
                                         </h5>
-                                        <a class="custom-link" href="{{ route('home.product.show', ['category' => $category->slug, 'product' => $product->slug]) }}">
-                                            <h6 class="card-title font-weight-bold text-center">{{ $product->name }}</h6>
+                                        <a class="custom-link" href="{{ route('home.product.show', ['category' => $recProduct->slug, 'product' => $recProduct->slug]) }}">
+                                            <h6 class="card-title font-weight-bold text-center">{{ $recProduct->name }}</h6>
                                         </a>
-                                        <small class="card-text text-muted">{{ str_limit($product->description, 110) }}</small>
+                                        <small class="card-text text-muted">{{ str_limit($recProduct->description, 110) }}</small>
                                     </div>
                                     <div class="card-footer bg-primary">
                                         <button type="button" class="btn bg-white text-uppercase btn-sm btn-block button-add-to-card">
