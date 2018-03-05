@@ -22,16 +22,19 @@ class HomeController extends Controller
             ->chunk(3)
             ->first();
 
-        $products = $categoriesCollectionChunk->map(function (Category $categoryItem) {
-            return [
-                'category' => $categoryItem,
-                'products' => $categoryItem
-                    ->products()
-                    ->with(['categories', 'images'])
-                    ->limit(4)
-                    ->get(),
-            ];
-        });
+        $products = [];
+        if ($categoriesCollectionChunk) {
+            $products = $categoriesCollectionChunk->map(function (Category $categoryItem) {
+                return [
+                    'category' => $categoryItem,
+                    'products' => $categoryItem
+                        ->products()
+                        ->with(['categories', 'images'])
+                        ->limit(4)
+                        ->get(),
+                ];
+            });
+        }
 
         return view('home', [
             'categories'         => $categories,
