@@ -1,18 +1,14 @@
-.button-add-to-card {
-  transition: all .1s ease-in;
 
-  &:hover, &:active {
-    font-weight: bolder;
-    color: #ffffff;
-    background-color: #343a40 !important;
-  }
-}
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-a {
-  text-decoration-skip: ink;
-}
+// Variables
+@import "variables";
 
-.custom-link {
-  color: #007bff;
-  text-decoration-skip: ink;
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }

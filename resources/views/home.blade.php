@@ -61,7 +61,6 @@
                                         <a class="custom-link" href="{{ route('home.product.show', ['category' => $categoriesProduct['category']->slug, 'product' => $product->slug]) }}">
                                             <h6 class="card-title font-weight-bold text-center">{{ $product->name }}</h6>
                                         </a>
-                                        <small class="card-text text-muted">{{ str_limit($product->description, 100) }}</small>
                                     </div>
                                     <div class="card-footer bg-{{ $colors[$loop->parent->index] }}">
                                         <button type="button" class="btn bg-white text-uppercase btn-sm btn-block button-add-to-card">

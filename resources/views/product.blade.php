@@ -2,9 +2,6 @@
 
 @section('title', $product->name)
 @section('sidebar')
-    <link rel="stylesheet" href="{{ asset('vendors/lightslider/css/lightslider.min.css') }}">
-    <script src="{{ asset('vendors/lightslider/js/lightslider.min.js') }}"></script>
-
     <div class="card border-primary">
         <div class="card-header font-weight-bold text-white bg-primary">
             <span class="oi oi-menu" title="Каталог товаров" aria-hidden="true"></span>
@@ -184,7 +181,13 @@
             {{-- Recommendation End --}}
         </div>
     </div>
-    <script>
+@endsection
+@section('style')
+    <link rel="stylesheet" href="{{ asset('vendors/lightslider/css/lightslider.min.css') }}">
+@endsection
+@section('script')
+    <script src="{{ asset('vendors/lightslider/js/lightslider.min.js') }}"></script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $('#productCount').on('input', function () {
                 var price = $('#productPrice').val();
