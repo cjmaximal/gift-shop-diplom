@@ -46,6 +46,14 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
+                    <!-- Shopping Cart -->
+                    <li>
+                        <a class="nav-link shoppingCart" href="javascript:void(0);">
+                            <span class="oi oi-cart"></span>
+                            Корзина
+                        </a>
+                    </li>
+                    <!-- Shopping Cart End -->
                     <!-- Authentication Links -->
                     @guest
                         <li><a class="nav-link" href="{{ route('login') }}">Вход</a></li>
