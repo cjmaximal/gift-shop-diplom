@@ -18,6 +18,13 @@
 </head>
 <body>
 <div id="app">
+    @php
+        $shoppingCartItems = \App\Services\ShoppingCartService::getItems();
+        $shoppingCart = [
+            'count' => count($shoppingCartItems),
+            'items' => $shoppingCartItems,
+        ];
+    @endphp
     <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-primary" style="box-shadow: #343a40 2px 0 10px;">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -48,9 +55,12 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Shopping Cart -->
                     <li>
-                        <a class="nav-link shoppingCart" href="javascript:void(0);">
+                        <a class="nav-link shoppingCart {{ $shoppingCart['count'] ? 'active' : ''}}" href="javascript:void(0);">
                             <span class="oi oi-cart"></span>
                             Корзина
+                            @if($shoppingCart['count'])
+                                <span class="badge badge-warning">{{ $shoppingCart['count'] }}</span>
+                            @endif
                         </a>
                     </li>
                     <!-- Shopping Cart End -->

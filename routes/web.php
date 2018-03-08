@@ -21,6 +21,8 @@ Route::get('/conditions', 'HomeController@conditions')->name('home.conditions');
 Route::get('/catalog/{category}', 'CategoryController@show')->name('home.categories.show');
 Route::get('/catalog/{category}/product/{product}', 'ProductController@show')->name('home.product.show');
 
+Route::post('/ajax-add-to-cart/{product}', 'HomeController@ajaxAddToCart')->name('home.product.add_to_cart');
+
 Route::group(['prefix' => '/profile'], function () {
 
     Route::get('/', 'ProfileController@index')->name('profile.index');

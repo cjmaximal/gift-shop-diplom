@@ -59,6 +59,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Products relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('count');
+    }
+
+    /**
      * Password attribute mutator
      *
      * @param $value
