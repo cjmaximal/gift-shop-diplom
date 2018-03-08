@@ -171,7 +171,7 @@
                                         <small class="card-text text-muted">{{ str_limit($recProduct->description, 110) }}</small>
                                     </div>
                                     <div class="card-footer bg-primary">
-                                        <button type="button" class="btn bg-white text-uppercase btn-sm btn-block addToCart" data-id="{{ $recProduct->id }}" data-count="1">
+                                        <button type="button" class="btn bg-white text-uppercase btn-sm btn-block addToCart" data-id="{{ $recProduct->id }}">
                                             <span class="oi oi-cart"></span>
                                             В корзину
                                         </button>
@@ -191,37 +191,8 @@
 @endsection
 @section('script')
     <script src="{{ asset('vendors/lightslider/js/lightslider.min.js') }}"></script>
-    <script src="{{ asset('vendors/jquery.preloader.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            // Add to shopping cart
-            $('.addToCart').on('click', function () {
-                var self = this;
-                var productId = $(this).data('id');
-                var count = 1;
-                if (productId.toString() === '{{ $product->id }}') {
-                    count = $('#productCount').val();
-                }
-
-                $(self).closest('.card').preloader('start');
-                $.ajax({
-                    type: 'POST',
-                    url: '/ajax-add-to-cart/' + productId,
-                    data: {
-                        count: count,
-                    }
-                }).done(function (response) {
-                    console.log('Success', response);
-
-                    // todo: update shopping cart widget
-
-                }).fail(function (jqXHR, textStatus) {
-                    console.log('Error', textStatus);
-                }).always(function () {
-                    $(self).closest('.card').preloader('stop');
-                });
-            });
-
             // Product count
             $('#productCount').on('input', function () {
                 var price = $('#productPrice').val();

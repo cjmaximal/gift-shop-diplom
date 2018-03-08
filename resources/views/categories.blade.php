@@ -120,7 +120,7 @@
                                         </a>
                                     </div>
                                     <div class="card-footer bg-primary">
-                                        <button type="button" class="btn bg-white text-uppercase btn-sm btn-block button-add-to-card">
+                                        <button type="button" class="btn bg-white text-uppercase btn-sm btn-block addToCart" data-id="{{ $product->id }}">
                                             В корзину
                                         </button>
                                     </div>
