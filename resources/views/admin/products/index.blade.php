@@ -129,9 +129,9 @@
 
             $('#filter-category').change(function () {
                 if ($(this).val() !== 'all') {
-                    window.urlInsertParam('category', $(this).val());
+                    urlInsertParam('category', $(this).val());
                 } else {
-                    window.urlInsertParam('category', '');
+                    urlInsertParam('category', '');
                 }
             });
         });

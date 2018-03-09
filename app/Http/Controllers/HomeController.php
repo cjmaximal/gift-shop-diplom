@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $categories = Cache::rememberForever('categories', function () {
             return Category::query()->orderBy('name')->has('products')->get();
@@ -59,6 +59,19 @@ class HomeController extends Controller
         $count = $request->input('count', 1);
 
         ShoppingCartService::putItem($product, $count);
+        $shoppingCartItems = ShoppingCartService::getItems();
+
+        return response()->json([
+            'count' => count($shoppingCartItems),
+            'items' => $shoppingCartItems,
+        ]);
+    }
+
+    public function ajaxRemoveFromCart(Request $request, Product $product)
+    {
+        $completely = (bool)$request->input('completely', 0);
+
+        ShoppingCartService::removeItem($product, $completely);
         $shoppingCartItems = ShoppingCartService::getItems();
 
         return response()->json([

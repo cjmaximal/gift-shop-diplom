@@ -22,6 +22,7 @@ Route::get('/catalog/{category}', 'CategoryController@show')->name('home.categor
 Route::get('/catalog/{category}/product/{product}', 'ProductController@show')->name('home.product.show');
 
 Route::post('/ajax-add-to-cart/{product}', 'HomeController@ajaxAddToCart')->name('home.product.add_to_cart');
+Route::post('/ajax-remove-from-cart/{product}', 'HomeController@ajaxRemoveFromCart')->name('home.product.remove_from_cart');
 
 Route::group(['prefix' => '/profile'], function () {
 
@@ -30,9 +31,7 @@ Route::group(['prefix' => '/profile'], function () {
 
 });
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-});
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::group(['prefix' => 'admin'], function () {
 

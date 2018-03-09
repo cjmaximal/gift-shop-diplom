@@ -11,7 +11,7 @@
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 @foreach($categories as $categoryItem)
-                    <li class="list-group-item {{ Route::current()->parameter('category') === $categoryItem->slug }}">
+                    <li class="list-group-item font-weight-bold">
                         <a href="{{ route('home.categories.show', ['category' => $categoryItem->slug]) }}">{{ $categoryItem->name }}</a>
                     </li>
                 @endforeach

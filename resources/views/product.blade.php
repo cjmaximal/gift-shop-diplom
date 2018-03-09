@@ -113,7 +113,7 @@
                                     </p>
                                 </div>
                                 <div class="card-footer">
-                                    <button class="btn btn-danger btn-block addToCart" data-id="{{ $product->id }}">
+                                    <button class="btn btn-danger btn-block addToCart" data-id="{{ $product->id }}" data-current="1">
                                         <span class="oi oi-cart"></span>
                                         В корзину
                                     </button>
@@ -148,7 +148,7 @@
 
                         @php
                             $productsBy = 4;
-                                if($category->products->where('id', '!=', $product->id)->count() % 4 == 1){
+                                if($category->products->where('id', '!=', $product->id)->count() % 4 == 1) {
                                     $productsBy = 3;
                                 }
                         @endphp

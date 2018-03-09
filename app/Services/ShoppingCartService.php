@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use App\Product;
 
 class ShoppingCartService
@@ -91,6 +90,57 @@ class ShoppingCartService
                     $productItem->save();
                 } else {
                     $user->products()->attach($product);
+                }
+            } catch (\Exception $e) {
+                report($e);
+
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    public static function removeItem(Product $product, bool $completely = false): bool
+    {
+        $shoppingCartItems = collect(self::getItems());
+
+        if (\Auth::guest()) {
+
+            if ($item = $shoppingCartItems->firstWhere('id', $product->id)) {
+
+                if ($completely || $item['count'] == 1) {
+                    $shoppingCartItems = $shoppingCartItems->reject(function ($value) use ($product) {
+                        return $value['id'] == $product->id;
+                    });
+                } elseif (!$completely && $item['count'] > 1) {
+                    $shoppingCartItems->transform(function ($item) use ($product) {
+                        if ($item['id'] == $product->id) {
+                            $item['count'] -= 1;
+                        }
+
+                        return $item;
+                    });
+
+                }
+            }
+
+            session()->put('shopping-cart-items', $shoppingCartItems->values()->toArray());
+
+        } else {
+
+            $user = \Auth::user();
+            $productItem = $user->products()->find($product->id);
+
+            if (!$productItem) return true;
+
+            try {
+                if ($completely || $productItem->count == 1) {
+                    $user->products()->detach($product);
+                } elseif (!$completely && $productItem->count > 1) {
+                    $productItem->count -= 1;
+                    $productItem->save();
                 }
             } catch (\Exception $e) {
                 report($e);
