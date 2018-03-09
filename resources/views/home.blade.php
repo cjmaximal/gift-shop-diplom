@@ -1,24 +1,6 @@
 @extends('layouts.main')
 
 @section('title', 'Главная')
-@section('sidebar')
-    <div class="card border-primary">
-        <div class="card-header font-weight-bold text-white bg-primary">
-            <span class="oi oi-menu" title="Каталог товаров" aria-hidden="true"></span>
-            КАТАЛОГ ТОВАРОВ
-        </div>
-
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                @foreach($categories as $categoryItem)
-                    <li class="list-group-item font-weight-bold">
-                        <a href="{{ route('home.categories.show', ['category' => $categoryItem->slug]) }}">{{ $categoryItem->name }}</a>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-@endsection
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-12">

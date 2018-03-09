@@ -21,13 +21,8 @@ class ProductController extends Controller
             'images',
         ]);
 
-        $categories = Cache::rememberForever('categories', function () {
-            return Category::query()->orderBy('name')->has('products')->get();
-        });
-
         return view('product', [
             'category'   => $category,
-            'categories' => $categories,
             'product'    => $product,
         ]);
     }

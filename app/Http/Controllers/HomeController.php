@@ -12,9 +12,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categories = Cache::rememberForever('categories', function () {
-            return Category::query()->orderBy('name')->has('products')->get();
-        });
+        $categories = Category::query()->orderBy('name')->has('products')->get();
 
         $categoriesCollectionChunk = collect($categories)
             ->filter(function (Category $item) {
@@ -39,7 +37,6 @@ class HomeController extends Controller
         }
 
         return view('home', [
-            'categories'         => $categories,
             'categoriesProducts' => $products,
         ]);
     }

@@ -24,6 +24,8 @@
             'count' => count($shoppingCartItems),
             'items' => $shoppingCartItems,
         ];
+
+        $menuItems = \App\Services\MenuService::get();
     @endphp
     <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-primary" style="box-shadow: #343a40 2px 0 10px;">
         <div class="container">
@@ -99,7 +101,23 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    @yield('sidebar')
+                    <div class="card border-primary">
+                        <div class="card-header font-weight-bold text-white bg-primary">
+                            <span class="oi oi-menu" title="Каталог товаров" aria-hidden="true"></span>
+                            КАТАЛОГ ТОВАРОВ
+                        </div>
+
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                @foreach($menuItems as $categoryItem)
+                                    <li class="list-group-item font-weight-bold {{ optional(Route::current()->parameter('category'))->id == $categoryItem['id'] ? 'active' : ''}}">
+                                        <a href="{{ route('home.categories.show', ['category' => $categoryItem['slug']]) }}"
+                                           class="{{ optional(Route::current()->parameter('category'))->id == $categoryItem['id'] ? 'text-white' : ''}}">{{ $categoryItem['name'] }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-9">
                     @if(!Route::currentRouteNamed('home.index'))
@@ -123,8 +141,8 @@
                                 @if(Route::currentRouteNamed('home.categories.show') || Route::currentRouteNamed('home.product.show'))
                                     <li class="breadcrumb-item {{ Route::currentRouteNamed('home.categories.show') ? 'active' : '' }}"
                                             {{ Route::currentRouteNamed('home.categories.show') ? 'aria-current="page"' : '' }}>
-                                        <a class="custom-link" href="{{ route('home.categories.show', ['category' => $category->slug]) }}">
-                                            {{ $category->name }}
+                                        <a class="custom-link" href="{{ route('home.categories.show', ['category' => optional(Route::current()->parameter('category'))->slug]) }}">
+                                            {{ optional(Route::current()->parameter('category'))->name }}
                                         </a>
                                     </li>
                                 @endif
