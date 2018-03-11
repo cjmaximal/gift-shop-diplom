@@ -18,16 +18,17 @@ Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/contacts', 'HomeController@contacts')->name('home.contacts');
 Route::get('/conditions', 'HomeController@conditions')->name('home.conditions');
 
-Route::get('/catalog/{category}', 'CategoryController@show')->name('home.categories.show');
-Route::get('/catalog/{category}/product/{product}', 'ProductController@show')->name('home.product.show');
+Route::get('/category/{category}', 'CategoryController@show')->name('home.categories.show');
+Route::get('/product/{product}', 'ProductController@show')->name('home.product.show');
 
 Route::post('/ajax-add-to-cart/{product}', 'HomeController@ajaxAddToCart')->name('home.product.add_to_cart');
 Route::post('/ajax-remove-from-cart/{product}', 'HomeController@ajaxRemoveFromCart')->name('home.product.remove_from_cart');
 
+Route::get('/shopping-cart', 'HomeController@shoppingCart')->name('home.shopping_cart');
+
 Route::group(['prefix' => '/profile'], function () {
 
     Route::get('/', 'ProfileController@index')->name('profile.index');
-    Route::get('/shopping-cart', 'ProfileController@shoppingCart')->name('profile.shopping-cart');
 
 });
 

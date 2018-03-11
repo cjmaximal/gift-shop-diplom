@@ -1,5 +1,7 @@
 require('./bootstrap');
 
+const numberFormat = require("underscore.string/numberFormat");
+
 // Scroll Up
 $(window).scroll((e) => {
     if ($(e.currentTarget).scrollTop() > 100) {
@@ -66,6 +68,33 @@ const generateShoppingCartItems = (items) => {
     return result;
 };
 
+const generateShoppingCartContentItems = (items) => {
+    let result = $('<tbody></tbody>');
+    items.forEach((item, i, arr) => {
+            let $rItem = $(`<tr data-id="${item['id']}"></tr>`);
+            let $cNumber = $(`<th scope="row">${i + 1}</th>`);
+            let $cImage = $(`<td><img src="${item['image']}" alt="${item['name']}" class="img-thumbnail"></td>`);
+            let $cName = $(`<td><a href="/product/${item['slug']}">${item['name']}</a></td>`);
+            let $cAvailable = $(`<td><span class="${item['available'] ? 'text-success' : 'text-danger'}">${item['available'] ? 'В наличии' : 'Отсутствует'}</span></td>`);
+            let $cPrice = $(`<td>${numberFormat(item['price'], 2, ',', ' ')}&nbsp;&#8381;</td>`);
+            let $cProductCount = $(`<td width="100"><div class="btn-group btn-group-sm">` +
+                `<button class="btn btn-dark btn-sm" id="productDecrement" data-id="${item['id']}">` +
+                `<span class="oi oi-minus" title="Меньше" aria-hidden="true"></span></button>` +
+                `<input class="text-center" type="text" id="productCount" value="${item['count']}" readonly style="width:50px;">` +
+                `<button class="btn btn-dark btn-sm" id="productIncrement" data-id="${item['id']}">` +
+                `<span class="oi oi-plus" title="Больше" aria-hidden="true"></span></button></div></td>`);
+            let $cSum = $(`<td>${numberFormat(item['sum'], 2, ',', ' ')}&nbsp;&#8381;</td>`);
+            let $cBtn = $(`<td><button id="removeFromCart" class="btn btn-danger">` +
+                `<span class="oi oi-trash" title="Убрать из корзины" aria-hidden="true"></span></button></td>`);
+
+            $rItem.append($cNumber, $cImage, $cName, $cAvailable, $cPrice, $cProductCount, $cSum, $cBtn);
+            result.append($rItem);
+        }
+    );
+
+    return result;
+};
+
 // Add to shopping cart
 $('.addToCart').on('click', (e) => {
     const self = e.currentTarget;
@@ -118,7 +147,10 @@ $('#shoppingCartModal').on('click', '.removeFromCart', (e) => {
     $(self).closest('#shoppingCartModal .modal-body').preloader('start');
     $.ajax({
         type: 'POST',
-        url: `/ajax-remove-from-cart/${productId}`
+        url: `/ajax-remove-from-cart/${productId}`,
+        data: {
+            completely: true
+        }
     }).done((response) => {
         // console.log('Success', response);
 
@@ -145,5 +177,136 @@ $('#shoppingCartModal').on('click', '.removeFromCart', (e) => {
         console.log('Error', textStatus);
     }).always(() => {
         $(self).closest('#shoppingCartModal .modal-body').preloader('stop');
+    });
+});
+
+
+/* Shopping cart */
+
+// Increment product count
+$('#shoppingCartProducts').on('click', '#productIncrement', (e) => {
+    const self = e.currentTarget;
+    let productId = $(self).data('id');
+    let count = 1;
+
+    $('#shoppingCartProducts').preloader('start');
+    $.ajax({
+        type: 'POST',
+        url: `/ajax-add-to-cart/${productId}`,
+        data: {
+            count: count,
+        }
+    }).done((response) => {
+        // console.log('Success', response);
+
+        window.shoppingCart = response;
+
+        // Generate content for shopping cart dialog
+        $('#shoppingCartModal .modal-body')
+            .empty()
+            .append(generateShoppingCartItems(response.items));
+
+        // Generate shopping cart content
+        $('#shoppingCartContent table tbody')
+            .replaceWith(generateShoppingCartContentItems(response.items));
+
+        // Update shopping cart total
+        $('#shoppingCartTotal').text(numberFormat(response.total, 2, ',', ' '));
+
+    }).fail((jqXHR, textStatus) => {
+        console.log('Error', textStatus);
+    }).always(() => {
+        $('#shoppingCartProducts').preloader('stop');
+    });
+});
+
+// Decrement product count
+$('#shoppingCartProducts').on('click', '#productDecrement', (e) => {
+    const self = e.currentTarget;
+    let productId = $(self).data('id');
+    let currentCount = parseInt($(self).closest('tr').find('#productCount').val(), 10);
+    if (currentCount === 1) return;
+
+    $('#shoppingCartProducts').preloader('start');
+    $.ajax({
+        type: 'POST',
+        url: `/ajax-remove-from-cart/${productId}`
+    }).done((response) => {
+        // console.log('Success', response);
+
+        window.shoppingCart = response;
+
+        // Generate content for shopping cart dialog
+        $('#shoppingCartModal .modal-body').empty();
+        if (response.count > 0) {
+            $('#shoppingCartModal .modal-body').append(generateShoppingCartItems(response.items));
+        } else {
+            $('#shoppingCartModal .modal-body').append($('<p class="text-center text-muted">В корзине нет ни одного товара...</p>'));
+        }
+
+        // Generate shopping cart content
+        if (response.count > 0) {
+            $('#shoppingCartContent table tbody').replaceWith(generateShoppingCartContentItems(response.items));
+        } else {
+            $('#shoppingCartContent')
+                .empty()
+                .append($('<h5 class="text-center text-muted"><span class="oi oi-ban"></span>Ваша корзина пуста</h5>'));
+        }
+
+        // Update shopping cart total
+        if (response.count > 0) {
+            $('#shoppingCartTotal').text(numberFormat(response.total, 2, ',', ' '));
+        }
+
+    }).fail((jqXHR, textStatus) => {
+        console.log('Error', textStatus);
+    }).always(() => {
+        $('#shoppingCartProducts').preloader('stop');
+    });
+});
+
+// Remove from shopping cart
+$('#shoppingCartProducts').on('click', '#removeFromCart', (e) => {
+    const self = e.currentTarget;
+    let productId = $(self).data('id');
+
+    $('#shoppingCartProducts').preloader('start');
+    $.ajax({
+        type: 'POST',
+        url: `/ajax-remove-from-cart/${productId}`,
+        data: {
+            completely: true
+        }
+    }).done((response) => {
+        // console.log('Success', response);
+
+        window.shoppingCart = response;
+
+        // Generate content for shopping cart dialog
+        $('#shoppingCartModal .modal-body').empty();
+        if (response.count > 0) {
+            $('#shoppingCartModal .modal-body').append(generateShoppingCartItems(response.items));
+        } else {
+            $('#shoppingCartModal .modal-body').append($('<p class="text-center text-muted">В корзине нет ни одного товара...</p>'));
+        }
+
+        // Generate shopping cart content
+        if (response.count > 0) {
+            $('#shoppingCartContent table tbody').replaceWith(generateShoppingCartContentItems(response.items));
+        } else {
+            $('#shoppingCartContent')
+                .empty()
+                .append($('<h5 class="text-center text-muted"><span class="oi oi-ban"></span>Ваша корзина пуста</h5>'));
+        }
+
+        // Update shopping cart total
+        if (response.count > 0) {
+            $('#shoppingCartTotal').text(numberFormat(response.total, 2, ',', ' '));
+        }
+
+    }).fail((jqXHR, textStatus) => {
+        console.log('Error', textStatus);
+    }).always(() => {
+        $('#shoppingCartProducts').preloader('stop');
     });
 });

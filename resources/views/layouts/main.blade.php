@@ -56,13 +56,15 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Shopping Cart -->
-                    <li>
-                        <a class="nav-link shoppingCart {{ $shoppingCart['count'] ? 'active' : ''}}" href="javascript:void(0);" data-toggle="modal" data-target="#shoppingCartModal">
-                            <span class="oi oi-cart"></span>
-                            Корзина
-                            <span class="badge badge-warning" style="display: {{ $shoppingCart['count'] ? 'inline-block' : 'none' }};">{{ $shoppingCart['count'] }}</span>
-                        </a>
-                    </li>
+                    @if(!Route::currentRouteNamed('home.shopping_cart'))
+                        <li>
+                            <a class="nav-link shoppingCart {{ $shoppingCart['count'] ? 'active' : ''}}" href="javascript:void(0);" data-toggle="modal" data-target="#shoppingCartModal">
+                                <span class="oi oi-cart"></span>
+                                Корзина
+                                <span class="badge badge-warning" style="display: {{ $shoppingCart['count'] ? 'inline-block' : 'none' }};">{{ $shoppingCart['count'] }}</span>
+                            </a>
+                        </li>
+                    @endif
                     <!-- Shopping Cart End -->
                     <!-- Authentication Links -->
                     @guest
@@ -129,32 +131,22 @@
                                     </a>
                                 </li>
                                 @if(Route::currentRouteNamed('home.contacts'))
-                                    <li class="breadcrumb-item">Контакты</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Контакты</li>
                                 @endif
                                 @if(Route::currentRouteNamed('home.conditions'))
-                                    <li class="breadcrumb-item">Условия работы</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Условия работы</li>
                                 @endif
-
-                                @if(Route::currentRouteNamed('home.categories.*') || Route::currentRouteNamed('home.product.show'))
-                                    <li class="breadcrumb-item">Каталог</li>
+                                @if(Route::currentRouteNamed('home.shopping_cart'))
+                                    <li class="breadcrumb-item active" aria-current="page">Корзина</li>
                                 @endif
-                                @if(Route::currentRouteNamed('home.categories.show') || Route::currentRouteNamed('home.product.show'))
-                                    <li class="breadcrumb-item {{ Route::currentRouteNamed('home.categories.show') ? 'active' : '' }}"
-                                            {{ Route::currentRouteNamed('home.categories.show') ? 'aria-current="page"' : '' }}>
-                                        <a class="custom-link" href="{{ route('home.categories.show', ['category' => optional(Route::current()->parameter('category'))->slug]) }}">
-                                            {{ optional(Route::current()->parameter('category'))->name }}
-                                        </a>
+                                @if(Route::currentRouteNamed('home.categories.show'))
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        {{ Route::current()->parameter('category')->name }}
                                     </li>
                                 @endif
                                 @if(Route::currentRouteNamed('home.product.show'))
-                                    <li class="breadcrumb-item {{ Route::currentRouteNamed('home.product.show') ? 'active' : '' }}"
-                                            {{ Route::currentRouteNamed('home.product.show') ? 'aria-current="page"' : '' }}>
-                                        <a class="custom-link" href="{{ route('home.product.show', [
-                                                'category' => Route::current()->parameter('category')->slug,
-                                                'product' => Route::current()->parameter('product')->slug,
-                                            ]) }}">
-                                            {{ Route::current()->parameter('product')->name }}
-                                        </a>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        {{ Route::current()->parameter('product')->name }}
                                     </li>
                                 @endif
                             </ol>
@@ -216,10 +208,10 @@
                     <span class="oi oi-plus"></span>&nbsp;
                     Продолжить покупки
                 </button>
-                <button type="button" class="btn btn-success btnCartMakeOrder">
+                <a href="{{ route('home.shopping_cart') }}" class="btn btn-success">
                     <span class="oi oi-cart"></span>&nbsp;
                     Перейти в корзину
-                </button>
+                </a>
             </div>
         </div>
     </div>

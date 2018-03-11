@@ -9,21 +9,20 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function show(Category $category, Product $product)
+    public function show(Product $product)
     {
-        $category->load([
-            'products' => function ($q) {
-                $q->limit(4);
-            },
-        ]);
         $product->load([
             'categories',
             'images',
         ]);
 
+        $recommendedProducts = Product::query()->where('id', '!=', $product->id)->whereHas('categories', function ($q) use ($product) {
+            $q->where('categories.id', $product->categories->pluck('id'));
+        })->limit(4)->get();
+
         return view('product', [
-            'category'   => $category,
-            'product'    => $product,
+            'product'             => $product,
+            'recommendedProducts' => $recommendedProducts,
         ]);
     }
 }

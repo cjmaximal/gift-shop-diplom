@@ -37,9 +37,12 @@ class ShoppingCartService
             $product = $products->firstWhere('id', $item['id']);
 
             return [
-                'id'        => $item['id'],
-                'count'     => $item['count'],
+                'id'        => $product->id,
+                'slug'      => $product->slug,
+                'count'     => (int)$item['count'],
                 'name'      => $product->name,
+                'price'     => (double)$product->price,
+                'sum'       => (double)round($item['count'] * $product->price, 2),
                 'available' => $product->is_available,
                 'image'     => $product->images
                     ? route('imagecache', [

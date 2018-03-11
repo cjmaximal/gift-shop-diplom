@@ -28,18 +28,6 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item {{ Route::currentRouteNamed('home.contacts') ? 'active' : '' }}">
-                        <a href="{{ route('home.contacts') }}" class="nav-link">
-                            <span class="oi oi-map-marker" title="Контакты" aria-hidden="true"></span>
-                            Контакты
-                        </a>
-                    </li>
-                    <li class="nav-item {{ Route::currentRouteNamed('home.conditions') ? 'active' : '' }}">
-                        <a href="{{ route('home.conditions') }}" class="nav-link">
-                            <span class="oi oi-spreadsheet" title="Условия работы" aria-hidden="true"></span>
-                            Условия работы
-                        </a>
-                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

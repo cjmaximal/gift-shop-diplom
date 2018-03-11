@@ -51,6 +51,11 @@ class HomeController extends Controller
         return view('conditions');
     }
 
+    public function shoppingCart()
+    {
+        return view('shopping-cart', ['shoppingCartItems' => ShoppingCartService::getItems()]);
+    }
+
     public function ajaxAddToCart(Request $request, Product $product)
     {
         $count = $request->input('count', 1);
@@ -59,8 +64,9 @@ class HomeController extends Controller
         $shoppingCartItems = ShoppingCartService::getItems();
 
         return response()->json([
-            'count' => count($shoppingCartItems),
+            'count' => (int)count($shoppingCartItems),
             'items' => $shoppingCartItems,
+            'total' => (double)collect($shoppingCartItems)->sum('sum'),
         ]);
     }
 
@@ -72,8 +78,9 @@ class HomeController extends Controller
         $shoppingCartItems = ShoppingCartService::getItems();
 
         return response()->json([
-            'count' => count($shoppingCartItems),
+            'count' => (int)count($shoppingCartItems),
             'items' => $shoppingCartItems,
+            'total' => (double)collect($shoppingCartItems)->sum('sum'),
         ]);
     }
 }

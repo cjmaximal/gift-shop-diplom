@@ -88,7 +88,8 @@
                                     <p class="card-text">
                                         Категории<br>
                                         @foreach($product->categories as $productCategory)
-                                            <span class="badge badge-primary">{{ $productCategory->name }}</span>
+                                            <a href="{{ route('home.categories.show', ['category' => $productCategory->slug]) }}"
+                                               class="btn btn-primary btn-sm">{{ $productCategory->name }}</a>
                                         @endforeach
                                     </p>
                                 </div>
@@ -121,21 +122,21 @@
             {{-- Product End --}}
 
             {{-- Recommendation --}}
-            @if($category->products->count())
+            @if($recommendedProducts->count())
                 <div class="card border-light mt-3" style="box-shadow: rgba(0, 0, 0, .3) 0 0 8px 1px;">
                     <div class="card-body">
                         <h4 class="card-title text-danger mb-4">Рекомендуемые товары</h4>
 
                         @php
                             $productsBy = 4;
-                                if($category->products->where('id', '!=', $product->id)->count() % 4 == 1) {
+                                if($recommendedProducts->count() % 4 == 1) {
                                     $productsBy = 3;
                                 }
                         @endphp
                         <div class="card-deck mb-3">
-                            @foreach($category->products->where('id', '!=', $product->id) as $recProduct)
+                            @foreach($recommendedProducts as $recProduct)
                                 <div class="card border-primary col-md-{{ $productsBy }} p-0">
-                                    <a class="custom-link" href="{{ route('home.product.show', ['category' => $category->slug, 'product' => $recProduct->slug]) }}">
+                                    <a class="custom-link" href="{{ route('home.product.show', ['product' => $recProduct->slug]) }}">
                                         <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'large',
                                                 'filename' => basename($recProduct->images->first()->src),
@@ -145,7 +146,7 @@
                                         <h5 class="text-danger text-center font-weight-bold">
                                             {{ number_format($recProduct->price, 2, ',', ' ') }} &#8381;
                                         </h5>
-                                        <a class="custom-link" href="{{ route('home.product.show', ['category' => $recProduct->slug, 'product' => $recProduct->slug]) }}">
+                                        <a class="custom-link" href="{{ route('home.product.show', ['product' => $recProduct->slug]) }}">
                                             <h6 class="card-title font-weight-bold text-center">{{ $recProduct->name }}</h6>
                                         </a>
                                         <small class="card-text text-muted">{{ str_limit($recProduct->description, 110) }}</small>
