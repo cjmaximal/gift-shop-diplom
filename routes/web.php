@@ -25,6 +25,9 @@ Route::post('/ajax-add-to-cart/{product}', 'HomeController@ajaxAddToCart')->name
 Route::post('/ajax-remove-from-cart/{product}', 'HomeController@ajaxRemoveFromCart')->name('home.product.remove_from_cart');
 
 Route::get('/shopping-cart', 'HomeController@shoppingCart')->name('home.shopping_cart');
+Route::post('/order/confirm', 'OrderController@confirm')->name('order.confirm');
+Route::post('/order/address', 'OrderController@address')->name('order.address');
+Route::post('/order/make', 'OrderController@make')->name('order.make');
 
 Route::group(['prefix' => '/profile'], function () {
 

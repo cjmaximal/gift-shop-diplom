@@ -56,7 +56,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Shopping Cart -->
-                    @if(!Route::currentRouteNamed('home.shopping_cart'))
+                    @if(!Route::currentRouteNamed('home.shopping_cart') && !Route::currentRouteNamed('order.confirm'))
                         <li>
                             <a class="nav-link shoppingCart {{ $shoppingCart['count'] ? 'active' : ''}}" href="javascript:void(0);" data-toggle="modal" data-target="#shoppingCartModal">
                                 <span class="oi oi-cart"></span>
@@ -147,6 +147,16 @@
                                 @if(Route::currentRouteNamed('home.product.show'))
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {{ Route::current()->parameter('product')->name }}
+                                    </li>
+                                @endif
+                                @if(Route::currentRouteNamed('order.confirm'))
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Подтверждение заказа
+                                    </li>
+                                @endif
+                                @if(Route::currentRouteNamed('order.address'))
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Адрес получателя
                                     </li>
                                 @endif
                             </ol>

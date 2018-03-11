@@ -201,11 +201,6 @@ $('#shoppingCartProducts').on('click', '#productIncrement', (e) => {
 
         window.shoppingCart = response;
 
-        // Generate content for shopping cart dialog
-        $('#shoppingCartModal .modal-body')
-            .empty()
-            .append(generateShoppingCartItems(response.items));
-
         // Generate shopping cart content
         $('#shoppingCartContent table tbody')
             .replaceWith(generateShoppingCartContentItems(response.items));
@@ -235,14 +230,6 @@ $('#shoppingCartProducts').on('click', '#productDecrement', (e) => {
         // console.log('Success', response);
 
         window.shoppingCart = response;
-
-        // Generate content for shopping cart dialog
-        $('#shoppingCartModal .modal-body').empty();
-        if (response.count > 0) {
-            $('#shoppingCartModal .modal-body').append(generateShoppingCartItems(response.items));
-        } else {
-            $('#shoppingCartModal .modal-body').append($('<p class="text-center text-muted">В корзине нет ни одного товара...</p>'));
-        }
 
         // Generate shopping cart content
         if (response.count > 0) {

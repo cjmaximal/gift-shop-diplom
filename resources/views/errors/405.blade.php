@@ -11,8 +11,8 @@
             @endif
         </div>
         <div class="mt-3 text-center">
-            <h3>404</h3>
-            <h4>Страница не найдена</h4>
+            <h3>405</h3>
+            <h4>Метод запрещен</h4>
         </div>
     </div>
 @endsection
