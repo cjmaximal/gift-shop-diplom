@@ -47,7 +47,14 @@
                             <span class="text-primary">Итого:&nbsp;</span>
                             <span id="shoppingCartTotal">{{ number_format(array_sum(array_pluck($shoppingCartItems, 'sum')), 2, ',', ' ') }}</span>&nbsp;&#8381;
                         </h5>
-                        <div class="text-right">
+                        <div class="clearfix mt-5"></div>
+                        <div class="d-inline-block">
+                            <a href="{{ route('home.shopping_cart') }}" class="btn btn-secondary">
+                                <span class="oi oi-arrow-left"></span>
+                                Назад
+                            </a>
+                        </div>
+                        <div class="d-inline-block float-right">
                             @guest
                                 <a href="{{ route('login', ['redirect' => route('order.confirm')]) }}" class="btn btn-primary">Войти</a>
                             @endguest
@@ -58,9 +65,9 @@
                                     Продолжить
                                 @endguest
                             </a>
-                                <form id="orderAddressForm" action="{{ route('order.address') }}" method="POST">
-                                    @csrf
-                                </form>
+                            <form id="orderAddressForm" action="{{ route('order.address') }}" method="POST">
+                                @csrf
+                            </form>
                         </div>
                     @endif
                 </div>
