@@ -20,6 +20,9 @@ class Order extends Model
 
     protected $fillable = [
         'address',
+        'comment',
+        'full_name',
+        'phone',
         'status',
         'total',
     ];
@@ -30,18 +33,6 @@ class Order extends Model
         parent::boot();
 
         static::saving(function ($model) {
-            $user = $model->user;
-
-            $address = "Индекс: {$user->address_index}";
-            $address .= ", город/ населенный пункт: {$user->address_city}";
-            $address .= ", пр./ ул./ пер.: {$user->address_street}";
-            $address .= ", д.: {$user->address_home}";
-            $address .= ", стр.: {$user->address_block}";
-            $address .= ", п.: {$user->address_porch}";
-            $address .= ", кв.: {$user->address_apartment}";
-            $address .= ", комментарий: {$user->address_comment}";
-            $model->address = $address;
-
             $products = $model->products;
             $model->total = collect($products)->map(function ($item) {
                 $sum = round($item['orderItem']['price'] * $item['orderItem']['count'], 2);
