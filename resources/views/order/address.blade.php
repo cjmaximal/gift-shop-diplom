@@ -24,7 +24,7 @@
                                 <label for="inputPhone">Фамилия</label>
                                 <input type="text"
                                        name="surname"
-                                       value="{{ old('surname') }}"
+                                       value="{{ old('surname', optional(Auth::user())->surname) }}"
                                        class="form-control {{ $errors->has('surname') ? ' is-invalid' : '' }}"
                                        id="inputSurname"
                                        placeholder="Иванов"
@@ -39,7 +39,7 @@
                                 <label for="inputName" class="font-weight-bold">Имя</label>
                                 <input type="text"
                                        name="name"
-                                       value="{{ old('name') }}"
+                                       value="{{ old('name', optional(Auth::user())->name) }}"
                                        class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}"
                                        id="inputName"
                                        placeholder="Иван"
@@ -54,7 +54,7 @@
                                 <label for="inputPatronymic">Отчество</label>
                                 <input type="text"
                                        name="patronymic"
-                                       value="{{ old('patronymic') }}"
+                                       value="{{ old('patronymic', optional(Auth::user())->patronymic) }}"
                                        class="form-control {{ $errors->has('patronymic') ? ' is-invalid' : '' }}"
                                        id="inputPatronymic"
                                        placeholder="Иванович">
@@ -71,7 +71,7 @@
                                 <label for="inputPhone">Телефон</label>
                                 <input type="text"
                                        name="phone"
-                                       value="{{ old('phone') }}"
+                                       value="{{ old('phone', optional(Auth::user())->phone) }}"
                                        class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}"
                                        id="inputPhone"
                                        placeholder="Телефон">
@@ -85,12 +85,12 @@
                                 <label for="inputEmail" class="font-weight-bold">E-mail</label>
                                 <input type="email"
                                        name="email"
-                                       value="{{ old('email') }}"
+                                       value="{{ old('email', optional(Auth::user())->email) }}"
                                        class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
                                        id="inputEmail"
                                        placeholder="E-mail"
                                        required
-                                       autofocus>
+                                        {{ Auth::user() ? 'readonly' : '' }}>
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -104,7 +104,8 @@
                                 <label for="inputAddressIndex" class="font-weight-bold">Индекс</label>
                                 <input type="text"
                                        name="address_index"
-                                       value="{{ old('address_index') }}"
+                                       maxlength="6"
+                                       value="{{ old('address_index', optional(Auth::user())->address_index) }}"
                                        class="form-control {{ $errors->has('address_index') ? ' is-invalid' : '' }}"
                                        id="inputAddressIndex"
                                        placeholder="Индекс"
@@ -119,6 +120,7 @@
                                 <label for="inputAddressCity" class="font-weight-bold">Город</label>
                                 <input type="text"
                                        name="address_city"
+                                       value="{{ old('address_city', optional(Auth::user())->address_city) }}"
                                        class="form-control {{ $errors->has('address_city') ? ' is-invalid' : '' }}"
                                        id="inputAddressCity"
                                        placeholder="Город"
@@ -135,7 +137,7 @@
                                 <label for="inputAddressStreet" class="font-weight-bold">Улица</label>
                                 <input type="text"
                                        name="address_street"
-                                       value="{{ old('address_street') }}"
+                                       value="{{ old('address_street', optional(Auth::user())->address_street) }}"
                                        class="form-control {{ $errors->has('address_street') ? ' is-invalid' : '' }}"
                                        id="inputAddressStreet"
                                        placeholder="Улица"
@@ -150,6 +152,7 @@
                                 <label for="inputAddressHome" class="font-weight-bold">Дом</label>
                                 <input type="text"
                                        name="address_home"
+                                       value="{{ old('address_home', optional(Auth::user())->address_home) }}"
                                        class="form-control {{ $errors->has('address_home') ? ' is-invalid' : '' }}"
                                        id="inputAddressHome"
                                        placeholder="Дом"
@@ -164,6 +167,7 @@
                                 <label for="inputAddressBlock">Корпус</label>
                                 <input type="text"
                                        name="address_block"
+                                       value="{{ old('address_block', optional(Auth::user())->address_block) }}"
                                        class="form-control {{ $errors->has('address_block') ? ' is-invalid' : '' }}"
                                        id="inputAddressBlock"
                                        placeholder="Корпус">
@@ -177,6 +181,7 @@
                                 <label for="inputAddressPorch">Подъезд</label>
                                 <input type="text"
                                        name="address_porch"
+                                       value="{{ old('address_porch', optional(Auth::user())->address_porch) }}"
                                        class="form-control {{ $errors->has('address_porch') ? ' is-invalid' : '' }}"
                                        id="inputAddressPorch"
                                        placeholder="Подъезд">
@@ -187,13 +192,13 @@
                                 @endif
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="inputAddressApartment" class="font-weight-bold">Квартира</label>
+                                <label for="inputAddressApartment">Квартира</label>
                                 <input type="text"
                                        name="address_apartment"
+                                       value="{{ old('address_apartment', optional(Auth::user())->address_apartment) }}"
                                        class="form-control {{ $errors->has('address_apartment') ? ' is-invalid' : '' }}"
                                        id="inputAddressApartment"
-                                       placeholder="Квартира"
-                                       required>
+                                       placeholder="Квартира">
                                 @if ($errors->has('address_apartment'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('address_apartment') }}</strong>
@@ -202,10 +207,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="textareaAddressComment">Комментарий</label>
+                            <label for="textareaComment">Комментарий</label>
                             <textarea class="form-control"
-                                      name="address_comment"
-                                      id="textareaAddressComment"
+                                      name="comment"
+                                      id="textareaComment"
                                       rows="3">
                             </textarea>
                         </div>
