@@ -28,7 +28,6 @@ class CreateUsersTable extends Migration
             $table->string('address_block')->nullable();
             $table->integer('address_apartment')->unsigned()->nullable();
             $table->integer('address_porch')->unsigned()->nullable();
-            $table->text('address_comment')->nullable();
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
