@@ -104,6 +104,7 @@
                                 <label for="inputAddressIndex" class="font-weight-bold">Индекс</label>
                                 <input type="text"
                                        name="address_index"
+                                       maxlength="6"
                                        value="{{ old('address_index') }}"
                                        class="form-control {{ $errors->has('address_index') ? ' is-invalid' : '' }}"
                                        id="inputAddressIndex"
@@ -187,13 +188,12 @@
                                 @endif
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="inputAddressApartment" class="font-weight-bold">Квартира</label>
+                                <label for="inputAddressApartment">Квартира</label>
                                 <input type="text"
                                        name="address_apartment"
                                        class="form-control {{ $errors->has('address_apartment') ? ' is-invalid' : '' }}"
                                        id="inputAddressApartment"
-                                       placeholder="Квартира"
-                                       required>
+                                       placeholder="Квартира">
                                 @if ($errors->has('address_apartment'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('address_apartment') }}</strong>
@@ -202,10 +202,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="textareaAddressComment">Комментарий</label>
+                            <label for="textareaComment">Комментарий</label>
                             <textarea class="form-control"
-                                      name="address_comment"
-                                      id="textareaAddressComment"
+                                      name="comment"
+                                      id="textareaComment"
                                       rows="3">
                             </textarea>
                         </div>
