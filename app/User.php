@@ -30,7 +30,6 @@ class User extends Authenticatable
         'address_block',
         'address_porch',
         'address_apartment',
-        'address_comment',
     ];
 
     /**
