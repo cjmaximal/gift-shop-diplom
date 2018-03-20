@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
+    const DEFAULT_IMAGE = 'no-image.png';
+
     protected $fillable = [
         'src',
         'is_default',

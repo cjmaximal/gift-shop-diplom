@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <div class="card border-light" style="box-shadow: rgba(0, 0, 0, .3) 0 0 8px 1px;">
                 <div class="card-body">
-                    <form action="{{ route('order.address_store') }}" method="POST">
+                    <form action="{{ route('order.make') }}" method="POST">
                         @csrf
                         {{-- ФИО --}}
                         <div class="form-row mb-3">
@@ -211,8 +211,7 @@
                             <textarea class="form-control"
                                       name="comment"
                                       id="textareaComment"
-                                      rows="3">
-                            </textarea>
+                                      rows="3">{{ old('comment') }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary float-right">
                             <span class="oi oi-circle-check mr-2"></span>

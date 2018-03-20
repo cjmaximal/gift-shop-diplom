@@ -9,6 +9,14 @@
                     {{ session('status') }}
                 </div>
             @endif
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Закрыть">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -73,13 +81,10 @@
                             <span class="text-primary">Итого:&nbsp;</span>
                             <span id="shoppingCartTotal">{{ number_format(array_sum(array_pluck($shoppingCartItems, 'sum')), 2, ',', ' ') }}</span>&nbsp;&#8381;
                         </h5>
-                        <a href="javascript:document.getElementById('confirmOrderForm').submit();" class="btn btn-success float-right">
+                        <a href="{{ route('order.confirm') }}" class="btn btn-success float-right">
                             <span class="oi oi-check"></span>
                             Оформить заказ
                         </a>
-                        <form id="confirmOrderForm" action="{{ route('order.confirm') }}" method="POST" hidden>
-                            @csrf
-                        </form>
                     @else
                         <h5 class="text-center text-muted">
                             <span class="oi oi-ban"></span>

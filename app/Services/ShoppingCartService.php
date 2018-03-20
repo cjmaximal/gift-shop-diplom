@@ -155,4 +155,14 @@ class ShoppingCartService
 
         return true;
     }
+
+    public static function flush()
+    {
+        if (\Auth::guest()) {
+            session()->forget('shopping-cart-items');
+        } else {
+            $user = \Auth::user();
+            $user->products()->sync([]);
+        }
+    }
 }

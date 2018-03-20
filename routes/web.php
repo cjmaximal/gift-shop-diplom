@@ -14,6 +14,12 @@
 
 Auth::routes();
 
+Route::get('/order-mail', function () {
+    $order = App\Order::firstOrFail();
+
+    return new App\Mail\OrderCreated($order);
+});
+
 Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/contacts', 'HomeController@contacts')->name('home.contacts');
 Route::get('/conditions', 'HomeController@conditions')->name('home.conditions');
@@ -25,10 +31,10 @@ Route::post('/ajax-add-to-cart/{product}', 'HomeController@ajaxAddToCart')->name
 Route::post('/ajax-remove-from-cart/{product}', 'HomeController@ajaxRemoveFromCart')->name('home.product.remove_from_cart');
 
 Route::get('/shopping-cart', 'HomeController@shoppingCart')->name('home.shopping_cart');
-Route::post('/order/confirm', 'OrderController@confirm')->name('order.confirm');
-Route::post('/order/address', 'OrderController@address')->name('order.address');
-Route::post('/order/address-store', 'OrderController@addressStore')->name('order.address_store');
+Route::get('/order/confirm', 'OrderController@confirm')->name('order.confirm');
+Route::get('/order/address', 'OrderController@address')->name('order.address');
 Route::post('/order/make', 'OrderController@make')->name('order.make');
+Route::get('/order/{id}/details/', 'OrderController@show')->name('order.show');
 
 Route::group(['prefix' => '/profile'], function () {
 

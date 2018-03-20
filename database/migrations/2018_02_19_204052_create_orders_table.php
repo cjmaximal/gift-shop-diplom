@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('phone')->nullable();
             $table->text('address');
             $table->decimal('total');
-            $table->mediumText('comment');
+            $table->mediumText('comment')->nullable();
             $table->timestamps();
         });
     }

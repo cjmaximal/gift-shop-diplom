@@ -8,14 +8,16 @@ class Order extends Model
 {
     const STATUS_NEW = 1;
     const STATUS_PROCESSING = 2;
-    const STATUS_PROCESSED = 3;
-    const STATUS_CANCELLED = 4;
+    const STATUS_SHIPPED = 3;
+    const STATUS_PROCESSED = 4;
+    const STATUS_CANCELLED = 5;
 
-    protected $statuses = [
+    protected static $statuses = [
         1 => 'Новый',
         2 => 'В работе',
-        3 => 'Завершен',
-        4 => 'Отменен',
+        3 => 'Отправлен',
+        4 => 'Завершен',
+        5 => 'Отменен',
     ];
 
     protected $fillable = [
@@ -24,23 +26,8 @@ class Order extends Model
         'full_name',
         'phone',
         'status',
-        'total',
     ];
 
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($model) {
-            $products = $model->products;
-            $model->total = collect($products)->map(function ($item) {
-                $sum = round($item['orderItem']['price'] * $item['orderItem']['count'], 2);
-
-                return [$sum];
-            })->sum();
-        });
-    }
 
     /**
      * User relation
@@ -59,10 +46,7 @@ class Order extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class)
-            ->as('orderItem')
-            ->withPivotValue('count')
-            ->withPivotValue('price');
+        return $this->belongsToMany(Product::class)->withPivot('count', 'price');
     }
 
     /**
@@ -70,8 +54,8 @@ class Order extends Model
      *
      * @return array
      */
-    public function getStatuses(): array
+    public static function getStatuses(): array
     {
-        return $this->statuses;
+        return self::$statuses;
     }
 }

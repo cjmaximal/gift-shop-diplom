@@ -58,16 +58,13 @@
                             @guest
                                 <a href="{{ route('login', ['redirect' => route('order.confirm')]) }}" class="btn btn-primary">Войти</a>
                             @endguest
-                            <a href="javascript:document.getElementById('orderAddressForm').submit();" class="btn btn-success">
+                            <a href="{{ route('order.address') }}" class="btn btn-success">
                                 @guest
                                     Продолжить без регистрации
                                 @else
                                     Продолжить
                                 @endguest
                             </a>
-                            <form id="orderAddressForm" action="{{ route('order.address') }}" method="POST">
-                                @csrf
-                            </form>
                         </div>
                     @endif
                 </div>
