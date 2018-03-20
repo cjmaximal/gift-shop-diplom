@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\UserRegistered;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -50,10 +51,10 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name'       => 'required|string|max:255',
-            'surname'    => 'string|max:255',
-            'patronymic' => 'string|max:255',
+            'surname'    => 'nullable|string|max:255',
+            'patronymic' => 'nullable|string|max:255',
             'email'      => 'required|string|email|max:255|unique:users',
-            'phone'      => 'required|numeric|size:11',
+            'phone'      => 'required',
             'password'   => 'required|string|min:6|confirmed',
         ]);
     }
@@ -67,7 +68,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name'       => $data['name'],
             'surname'    => $data['surname'],
             'patronymic' => $data['patronymic'],
@@ -75,5 +76,9 @@ class RegisterController extends Controller
             'phone'      => $data['phone'],
             'password'   => bcrypt($data['password']),
         ]);
+
+        \Mail::send(new UserRegistered($user));
+
+        return $user;
     }
 }

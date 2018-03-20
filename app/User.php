@@ -92,9 +92,11 @@ class User extends Authenticatable
      *
      * @param $value
      */
-    public function setSurnameAttribute($value)
+    public function setSurnameAttribute($value = null)
     {
-        $this->attributes['surname'] = Helpers::ucfirst_utf8($value);
+        if ($value) {
+            $this->attributes['surname'] = Helpers::ucfirst_utf8($value);
+        }
     }
 
     /**
@@ -102,8 +104,10 @@ class User extends Authenticatable
      *
      * @param $value
      */
-    public function setPatronymicAttribute($value)
+    public function setPatronymicAttribute($value = null)
     {
-        $this->attributes['patronymic'] = Helpers::ucfirst_utf8($value);
+        if ($value) {
+            $this->attributes['patronymic'] = Helpers::ucfirst_utf8($value);
+        }
     }
 }
