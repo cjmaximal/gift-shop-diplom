@@ -14,7 +14,7 @@ class ShoppingCartService
 {
     public static function getItems(bool $formatted = true): array
     {
-        if (\Auth::guest()) {
+        if (\Auth::check() == false) {
             $shoppingCartItems = session()->get('shopping-cart-items', []);
         } else {
             $shoppingCartItems = \Auth::user()->products()->count()
@@ -39,7 +39,7 @@ class ShoppingCartService
             if (!$product) {
                 self::flush();
 
-                return false;
+                return [];
             }
 
             return [
@@ -69,7 +69,7 @@ class ShoppingCartService
     {
         $shoppingCartItems = collect(self::getItems());
 
-        if (\Auth::guest()) {
+        if (\Auth::check() == false) {
 
             if ($shoppingCartItems->firstWhere('id', $product->id)) {
                 $shoppingCartItems->transform(function ($item) use ($product, $count) {
@@ -164,7 +164,7 @@ class ShoppingCartService
 
     public static function flush()
     {
-        if (\Auth::guest()) {
+        if (\Auth::check() == false) {
             session()->forget('shopping-cart-items');
         } else {
             $user = \Auth::user();
