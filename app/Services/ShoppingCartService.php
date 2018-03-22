@@ -36,6 +36,12 @@ class ShoppingCartService
 
             $product = $products->firstWhere('id', $item['id']);
 
+            if (!$product) {
+                self::flush();
+
+                return false;
+            }
+
             return [
                 'id'        => $product->id,
                 'slug'      => $product->slug,
