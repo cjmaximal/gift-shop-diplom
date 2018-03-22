@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'patronymic' => $data['patronymic'],
             'email'      => $data['email'],
             'phone'      => $data['phone'],
-            'password'   => bcrypt($data['password']),
+            'password'   => \Hash::make($data['password']),
         ]);
 
         \Mail::send(new UserRegistered($user));
