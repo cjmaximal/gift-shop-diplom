@@ -65,7 +65,7 @@
                             </a>
                         </li>
                     @endif
-                    <!-- Shopping Cart End -->
+                <!-- Shopping Cart End -->
                     <!-- Authentication Links -->
                     @guest
                         <li><a class="nav-link" href="{{ route('login') }}">Вход</a></li>
@@ -78,16 +78,22 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if(Auth::user()->isAdmin())
                                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                        <span class="oi oi-cog" title="Управление сайтом" aria-hidden="true"></span>
+                                        <span class="oi oi-cog"></span>
                                         Управление сайтом
                                     </a>
                                 @endif
+                                @if(Auth::check())
+                                    <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                        <span class="oi oi-person"></span>
+                                        Профиль
+                                    </a>
+                                @endif
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    <span class="oi oi-account-logout" title="icon account-logout" aria-hidden="true"></span>
+                                    <span class="oi oi-account-logout"></span>
                                     Выйти
                                 </a>
-
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
