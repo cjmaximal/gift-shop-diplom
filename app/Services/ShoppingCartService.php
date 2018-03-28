@@ -48,9 +48,9 @@ class ShoppingCartService
                 'count'     => (int)$item['count'],
                 'name'      => $product->name,
                 'price'     => (double)$product->price,
-                'sum'       => (double)round($item['count'] * $product->price, 2),
+                'sum'       => round($item['count'] * $product->price, 2),
                 'available' => $product->is_available,
-                'image'     => $product->images
+                'image'     => $product->images->isNotEmpty()
                     ? route('imagecache', [
                         'template' => 'small',
                         'filename' => basename($product->images->first()->src),
