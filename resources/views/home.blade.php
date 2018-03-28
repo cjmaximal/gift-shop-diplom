@@ -31,10 +31,17 @@
                             @foreach($categoriesProduct['products'] as $product)
                                 <div class="card border-{{ $colors[$loop->parent->index] }}">
                                     <a class="custom-link" href="{{ route('home.product.show', ['product' => $product->slug]) }}">
-                                        <img class="card-img-top" src="{{ route('imagecache', [
+                                        @if($product->images->count())
+                                            <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'medium',
                                                 'filename' => basename($product->images->first()->src),
                                             ]) }}" alt="{{ $product->name }}">
+                                        @else
+                                            <img class="card-img-top" src="{{ route('imagecache', [
+                                                'template' => 'medium',
+                                                'filename' => 'no-image.png',
+                                            ]) }}" alt="Изображение отсутствует">
+                                        @endif
                                     </a>
                                     <div class="card-body">
                                         <h5 class="text-danger text-center font-weight-bold">
