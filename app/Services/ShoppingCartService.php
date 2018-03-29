@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Product;
+use App\User;
 
 class ShoppingCartService
 {
@@ -157,5 +158,14 @@ class ShoppingCartService
         } else {
             session()->forget('shopping-cart-items');
         }
+    }
+
+    public static function sync(User $user): void
+    {
+        $shoppingCartItems = session()->get('shopping-cart-items', []);
+        $productIds = collect($shoppingCartItems)->pluck('id');
+        $user->products()->sync($productIds, false);
+
+        session()->forget('shopping-cart-items');
     }
 }
