@@ -38,7 +38,7 @@ class LoginController extends Controller
     public function __construct()
     {
         Event::listen('Illuminate\Auth\Events\Login', function ($event) {
-            ShoppingCartService::syncOnLogin($event->user);
+            ShoppingCartService::sync($event->user);
         });
 
         $this->middleware('guest')->except('logout');
