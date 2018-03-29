@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cjmax
- * Date: 08.03.2018
- * Time: 0:58
- */
 
 namespace App\Services;
 
@@ -14,20 +8,25 @@ class ShoppingCartService
 {
     public static function getItems(bool $formatted = true): array
     {
-        if (\Auth::check() == false) {
-            $shoppingCartItems = session()->get('shopping-cart-items', []);
-        } else {
+        if (\Auth::check()) {
+
+            $user = \Auth::user();
             $shoppingCartItems = \Auth::user()->products()->count()
-                ? collect(\Auth::user()->products)->map(function ($item) {
+                ? $user->products->map(function (Product $product) {
+
                     return [
-                        'id'    => $item->product_id,
-                        'count' => $item->count,
+                        'id'    => $product->id,
+                        'count' => $product->pivot->count,
                     ];
                 })->toArray()
                 : [];
+        } else {
+            $shoppingCartItems = session()->get('shopping-cart-items', []);
         }
 
-        if (!$formatted) return $shoppingCartItems;
+        if (!$formatted) {
+            return $shoppingCartItems;
+        }
 
 
         $productIds = data_get($shoppingCartItems, '*.id');
@@ -37,7 +36,7 @@ class ShoppingCartService
             $product = $products->firstWhere('id', $item['id']);
 
             if (!$product) {
-                self::flush();
+                self::removeItem($item['id'], true);
 
                 return [];
             }
@@ -69,9 +68,21 @@ class ShoppingCartService
     {
         $shoppingCartItems = collect(self::getItems());
 
-        if (\Auth::check() == false) {
+        if (\Auth::check()) {
 
-            if ($shoppingCartItems->firstWhere('id', $product->id)) {
+            $user = \Auth::user();
+            $userProduct = $user->products()->find($product->id);
+
+            if ($userProduct) {
+                $count += $userProduct->pivot->count;
+                $user->products()->updateExistingPivot($userProduct->id, ['count' => $count]);
+            } else {
+                $user->products()->attach($product->id, ['count' => $count]);
+            }
+        } else {
+
+            $item = $shoppingCartItems->firstWhere('id', $product->id);
+            if ($item) {
                 $shoppingCartItems->transform(function ($item) use ($product, $count) {
                     if ($item['id'] == $product->id) {
                         $item['count'] += $count;
@@ -87,26 +98,8 @@ class ShoppingCartService
             }
 
             session()->put('shopping-cart-items', $shoppingCartItems->toArray());
-
-        } else {
-
-            $user = \Auth::user();
-            $productItem = $user->products()->find($product->id);
-
-            try {
-                if ($productItem) {
-                    $productItem->count += $count;
-                    $productItem->save();
-                } else {
-                    $user->products()->attach($product);
-                }
-            } catch (\Exception $e) {
-                report($e);
-
-                return false;
-            }
-
         }
+
 
         return true;
     }
@@ -115,9 +108,25 @@ class ShoppingCartService
     {
         $shoppingCartItems = collect(self::getItems());
 
-        if (\Auth::guest()) {
+        if (\Auth::check()) {
 
-            if ($item = $shoppingCartItems->firstWhere('id', $product->id)) {
+            $user = \Auth::user();
+            $product = $user->products()->find($product->id);
+
+            if (!$product) {
+                return true;
+            }
+
+            if ($completely || $product->pivot->count <= 1) {
+                $user->products()->detach($product->id);
+            } elseif (!$completely && $product->pivot->count > 1) {
+                $count = $product->pivot->count - 1;
+                $user->products()->updateExistingPivot($product->id, ['count' => $count]);
+            }
+        } else {
+            $item = $shoppingCartItems->firstWhere('id', $product->id);
+
+            if ($item) {
 
                 if ($completely || $item['count'] == 1) {
                     $shoppingCartItems = $shoppingCartItems->reject(function ($value) use ($product) {
@@ -131,32 +140,10 @@ class ShoppingCartService
 
                         return $item;
                     });
-
                 }
             }
 
             session()->put('shopping-cart-items', $shoppingCartItems->values()->toArray());
-
-        } else {
-
-            $user = \Auth::user();
-            $productItem = $user->products()->find($product->id);
-
-            if (!$productItem) return true;
-
-            try {
-                if ($completely || $productItem->count == 1) {
-                    $user->products()->detach($product);
-                } elseif (!$completely && $productItem->count > 1) {
-                    $productItem->count -= 1;
-                    $productItem->save();
-                }
-            } catch (\Exception $e) {
-                report($e);
-
-                return false;
-            }
-
         }
 
         return true;
@@ -164,11 +151,11 @@ class ShoppingCartService
 
     public static function flush(): void
     {
-        if (\Auth::check() == false) {
-            session()->forget('shopping-cart-items');
-        } else {
+        if (\Auth::check()) {
             $user = \Auth::user();
             $user->products()->sync([]);
+        } else {
+            session()->forget('shopping-cart-items');
         }
     }
 }
