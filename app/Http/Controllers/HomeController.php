@@ -63,7 +63,7 @@ class HomeController extends Controller
         $shoppingCartItems = ShoppingCartService::getItems();
 
         return response()->json([
-            'count' => (int)count($shoppingCartItems),
+            'count' => count($shoppingCartItems),
             'items' => $shoppingCartItems,
             'total' => (double)collect($shoppingCartItems)->sum('sum'),
         ]);
