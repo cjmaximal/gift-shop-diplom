@@ -19,8 +19,6 @@ class CreateProductUserTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('count')->unsigned()->nullable();
-            $table->integer('price')->unsigned()->nullable();
             $table->timestamps();
         });
     }
@@ -32,7 +30,7 @@ class CreateProductUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_user', function (Blueprint $table){
+        Schema::table('product_user', function (Blueprint $table) {
             $table->dropForeign(['product_id']);
             $table->dropForeign(['user_id']);
         });
