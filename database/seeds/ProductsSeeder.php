@@ -55,6 +55,5 @@ class ProductsSeeder extends Seeder
         }
 
         \Cache::forget('categories');
-        \Cache::forget('products');
     }
 }
