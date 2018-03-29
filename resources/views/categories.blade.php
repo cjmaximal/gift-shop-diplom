@@ -87,10 +87,17 @@
                             @foreach($chunk as $product)
                                 <div class="card border-primary col-md-3 p-0">
                                     <a class="custom-link" href="{{ route('home.product.show', ['product' => $product->slug]) }}">
-                                        <img class="card-img-top" src="{{ route('imagecache', [
+                                        @if($product->images->isNotEmpty())
+                                            <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'large',
                                                 'filename' => basename($product->images->first()->src),
                                             ]) }}" alt="{{ $product->name }}">
+                                        @else
+                                            <img class="card-img-top" src="{{ route('imagecache', [
+                                                'template' => 'large',
+                                                'filename' => 'no-image.png',
+                                            ]) }}" alt="{{ $product->name }}">
+                                        @endif
                                     </a>
                                     <div class="card-body">
                                         <h5 class="text-danger text-center font-weight-bold">
