@@ -57,7 +57,15 @@ Route::group(['prefix' => 'admin'], function () {
     })->name('admin.dashboard');
 
     // Orders
-    Route::get('orders', 'Admin\OrdersController@index')->name('admin.orders.index');
+    Route::group(['prefix' => 'orders'], function () {
+
+
+        Route::get('/', 'Admin\OrdersController@index')->name('admin.orders.index');
+        Route::get('/{id}/edit', 'Admin\OrdersController@edit')->name('admin.orders.edit');
+        Route::put('/{id}', 'Admin\OrdersController@update')->name('admin.orders.update');
+        Route::delete('/{id}', 'Admin\OrdersController@destroy')->name('admin.orders.destroy');
+
+    });
 
     // Users
     Route::get('users', 'Admin\UsersController@index')->name('admin.users.index');
@@ -65,21 +73,21 @@ Route::group(['prefix' => 'admin'], function () {
     // Categories
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', 'Admin\CategoriesController@index')->name('admin.categories.index');
-        Route::get('create', 'Admin\CategoriesController@create')->name('admin.categories.create');
-        Route::post('store', 'Admin\CategoriesController@store')->name('admin.categories.store');
-        Route::get('edit/{category}', 'Admin\CategoriesController@edit')->name('admin.categories.edit');
-        Route::put('update/{category}', 'Admin\CategoriesController@update')->name('admin.categories.update');
-        Route::delete('destroy/{category}', 'Admin\CategoriesController@destroy')->name('admin.categories.destroy');
+        Route::get('/create', 'Admin\CategoriesController@create')->name('admin.categories.create');
+        Route::post('/store', 'Admin\CategoriesController@store')->name('admin.categories.store');
+        Route::get('/{category}/edit', 'Admin\CategoriesController@edit')->name('admin.categories.edit');
+        Route::put('/{category}', 'Admin\CategoriesController@update')->name('admin.categories.update');
+        Route::delete('/{category}', 'Admin\CategoriesController@destroy')->name('admin.categories.destroy');
     });
 
     // Products
     Route::group(['prefix' => 'products'], function () {
         Route::get('/', 'Admin\ProductsController@index')->name('admin.products.index');
-        Route::get('create', 'Admin\ProductsController@create')->name('admin.products.create');
-        Route::post('store', 'Admin\ProductsController@store')->name('admin.products.store');
-        Route::get('edit/{product}', 'Admin\ProductsController@edit')->name('admin.products.edit');
-        Route::put('update/{product}', 'Admin\ProductsController@update')->name('admin.products.update');
-        Route::delete('destroy/{product}', 'Admin\ProductsController@destroy')->name('admin.products.destroy');
+        Route::get('/create', 'Admin\ProductsController@create')->name('admin.products.create');
+        Route::post('/store', 'Admin\ProductsController@store')->name('admin.products.store');
+        Route::get('/{product}/edit', 'Admin\ProductsController@edit')->name('admin.products.edit');
+        Route::put('/{product}', 'Admin\ProductsController@update')->name('admin.products.update');
+        Route::delete('/{product}', 'Admin\ProductsController@destroy')->name('admin.products.destroy');
     });
 
 });
