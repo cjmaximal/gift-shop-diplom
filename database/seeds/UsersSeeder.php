@@ -15,7 +15,7 @@ class UsersSeeder extends Seeder
             'name'     => 'Администратор',
             'email'    => 'cjmaximal-r16@yandex.ru',
             'phone'    => '71234567890',
-            'password' => '123456',
+            'password' => \Hash::make('123456'),
             'is_admin' => true,
         ]);
     }
