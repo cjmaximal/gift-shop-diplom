@@ -28,7 +28,7 @@
                     <h4 class="card-header bg-dark text-white">
                         Категории
                         <a href="{{ route('admin.categories.create') }}" class="btn btn-success btn-sm">
-                            <span class="oi oi-plus" title="Добваить" aria-hidden="true"></span>
+                            <span class="oi oi-plus" title="Добавить" aria-hidden="true"></span>
                         </a>
                     </h4>
                     <div class="card-body p-0">
