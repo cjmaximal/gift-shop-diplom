@@ -39,6 +39,10 @@ Route::get('/order/{id}/details/', 'OrderController@show')->name('order.show');
 Route::group(['prefix' => '/profile'], function () {
 
     Route::get('/', 'ProfileController@index')->name('profile.index');
+    Route::get('/personal', 'ProfileController@editPersonal')->name('profile.personal.edit');
+    Route::put('/personal', 'ProfileController@updatePersonal')->name('profile.personal.update');
+    Route::get('/address', 'ProfileController@editAddress')->name('profile.address.edit');
+    Route::put('/address', 'ProfileController@updateAddress')->name('profile.address.update');
 
 });
 

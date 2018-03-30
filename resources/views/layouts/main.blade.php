@@ -109,6 +109,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
+                    {{-- Catalog --}}
                     <div class="card border-primary">
                         <div class="card-header font-weight-bold text-white bg-primary">
                             <span class="oi oi-menu" title="Каталог товаров" aria-hidden="true"></span>
@@ -126,6 +127,7 @@
                             </ul>
                         </div>
                     </div>
+                    {{-- Catalog End --}}
                 </div>
                 <div class="col-md-9">
                     @if(!Route::currentRouteNamed('home.index'))
@@ -163,6 +165,11 @@
                                 @if(Route::currentRouteNamed('order.address'))
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Адрес получателя
+                                    </li>
+                                @endif
+                                @if(Route::currentRouteNamed('profile.index'))
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Профиль
                                     </li>
                                 @endif
                             </ol>

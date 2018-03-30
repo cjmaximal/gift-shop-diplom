@@ -100,4 +100,13 @@ class User extends Authenticatable
             $this->attributes['patronymic'] = Helpers::ucfirst_utf8($value);
         }
     }
+
+    public function getFullNameAttribute()
+    {
+        return trim(implode(' ', [
+            $this->surname,
+            $this->name,
+            $this->patronymic,
+        ]));
+    }
 }

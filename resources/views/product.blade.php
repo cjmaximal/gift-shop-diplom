@@ -137,10 +137,17 @@
                             @foreach($recommendedProducts as $recProduct)
                                 <div class="card border-primary col-md-{{ $productsBy }} p-0">
                                     <a class="custom-link" href="{{ route('home.product.show', ['product' => $recProduct->slug]) }}">
-                                        <img class="card-img-top" src="{{ route('imagecache', [
+                                        @if($recProduct->images->isNotEmpty())
+                                            <img class="card-img-top" src="{{ route('imagecache', [
                                                 'template' => 'large',
                                                 'filename' => basename($recProduct->images->first()->src),
                                             ]) }}" alt="{{ $recProduct->name }}">
+                                        @else
+                                            <img class="card-img-top" src="{{ route('imagecache', [
+                                                'template' => 'large',
+                                                'filename' => 'no-image.png',
+                                            ]) }}" alt="{{ $recProduct->name }}">
+                                        @endif
                                     </a>
                                     <div class="card-body">
                                         <h5 class="text-danger text-center font-weight-bold">
