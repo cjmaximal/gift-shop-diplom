@@ -172,6 +172,22 @@
                                         Профиль
                                     </li>
                                 @endif
+                                @if(Route::currentRouteNamed('profile.address.edit'))
+                                    <li class="breadcrumb-item" aria-current="page">
+                                        <a href="{{ route('profile.index') }}" class="custom-link">Профиль</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Адрес доставки
+                                    </li>
+                                @endif
+                                @if(Route::currentRouteNamed('profile.personal.edit'))
+                                    <li class="breadcrumb-item" aria-current="page">
+                                        <a href="{{ route('profile.index') }}" class="custom-link">Профиль</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Персональные данные
+                                    </li>
+                                @endif
                             </ol>
                         </nav>
                     @endif

@@ -97,10 +97,18 @@
                                 @endif
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary float-right">
-                            <span class="oi oi-circle-check mr-2"></span>
-                            Сохранить
-                        </button>
+                        <div class="d-inline-block">
+                            <a href="{{ route('profile.index') }}" class="btn btn-secondary">
+                                <span class="oi oi-arrow-left"></span>
+                                Назад
+                            </a>
+                        </div>
+                        <div class="d-inline-block float-right">
+                            <button type="submit" class="btn btn-primary float-right">
+                                <span class="oi oi-circle-check mr-2"></span>
+                                Сохранить
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
