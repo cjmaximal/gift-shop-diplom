@@ -121,7 +121,9 @@
             {{ $products->appends(['category' => request()->get('category')])->links() }}
         </div>
     </div>
-    <script>
+@endsection
+@section('script')
+    <script type="text/javascript">
         $(document).ready(function () {
             $('#filter-category').select2({
                 width: '240px'
