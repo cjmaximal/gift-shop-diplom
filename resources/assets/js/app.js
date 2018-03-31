@@ -19,7 +19,7 @@ $('.scrollup').on('click', 'button', () => {
     return false;
 });
 
-const urlInsertParam = (key, value) => {
+window.urlInsertParam = (key, value) => {
     key = escape(key);
     value = escape(value);
 
