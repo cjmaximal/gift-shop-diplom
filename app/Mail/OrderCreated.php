@@ -70,6 +70,7 @@ class OrderCreated extends Mailable
                 'products'    => $products,
                 'total'       => number_format($this->order->total, 2, ',', ' ') . ' руб.',
             ])
+            ->subject('Новый заказ в интернет-магазине ' . config('app.name'))
             ->to($this->order->email);
     }
 }
