@@ -27,6 +27,17 @@
                 <div class="card border-dark">
                     <h4 class="card-header bg-dark text-white">
                         Заказы
+                        <span class="ml-4 h6">
+                            Фильтр по статусу
+                            <select name="status" id="filter-status">
+                                <option value="all" {{ !request()->has('status') ? 'selected' : '' }}>Все</option>
+                                @foreach($statuses as $statusId => $statusName)
+                                    <option value="{{ $statusId }}" {{ request()->get('status') == $statusId ? 'selected' : '' }}>
+                                        {{ $statusName }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </span>
                     </h4>
                     <div class="card-body p-0">
                         <table class="table table-striped">
@@ -77,7 +88,23 @@
             </div>
         </div>
     </div>
-    <script>
+@endsection
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#filter-status').select2({
+                width: '240px'
+            });
+
+            $('#filter-status').change(function () {
+                if ($(this).val() !== 'all') {
+                    urlInsertParam('status', $(this).val());
+                } else {
+                    urlInsertParam('status', '');
+                }
+            });
+        });
+
         function remove(id) {
             if (confirm('Удалить заказ #"' + id + '"?')) {
                 document.getElementById('removeId' + id).submit();

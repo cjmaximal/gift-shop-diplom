@@ -45,8 +45,12 @@ class OrdersController extends Controller
             })->toArray()
             : [];
 
+
+        $statuses = Order::getStatuses();
+
         return view('admin.orders.index', [
-            'orders' => $orders,
+            'orders'   => $orders,
+            'statuses' => $statuses,
         ]);
     }
 
