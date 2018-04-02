@@ -11,7 +11,7 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-       \App\User::create([
+        \App\User::create([
             'name'     => 'Администратор',
             'email'    => 'cjmaximal-r16@yandex.ru',
             'phone'    => '71234567890',
