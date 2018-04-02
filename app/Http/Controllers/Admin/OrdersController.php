@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 
 class OrdersController extends Controller
 {
-    private $page = 1;
     private $perPage = 10;
 
     public function __construct()
@@ -19,39 +18,51 @@ class OrdersController extends Controller
 
     public function index(Request $request)
     {
-        $orders = Order::query()
-            ->with('products')
-            ->orderBy('created_at', 'desc')
-            ->forPage($request->get('page', $this->page), $this->perPage)
-            ->get();
+        $ordersQ = Order::query()
+            ->with('products');
 
-        $orders = $orders->isNotEmpty()
-            ? $orders->map(function (Order $order) {
+        if ($request->filled('status')) {
+            $ordersQ->where('status', $request->input('status'));
+        }
 
-                $items = $order->products->map(function (Product $product) {
-                    return [
-                        'name' => $product->name,
-                        'link' => route('home.product.show', ['product' => $product]),
-                    ];
-                })->toArray();
-
-                return [
-                    'id'     => $order->id,
-                    'date'   => $order->created_at->format('d.m.Y H:i'),
-                    'buyer'  => $order->full_name,
-                    'items'  => $items,
-                    'status' => Order::getStatuses()[$order->status],
-                ];
-            })->toArray()
-            : [];
-
-
+        $orders = $ordersQ->orderBy('created_at', 'desc')->paginate($this->perPage);
         $statuses = Order::getStatuses();
 
         return view('admin.orders.index', [
             'orders'   => $orders,
             'statuses' => $statuses,
         ]);
+    }
+
+    public function edit($id)
+    {
+        $order = Order::query()->with('products')->findOrFail($id);
+        $items = $order->products->map(function ($item) {
+            return [
+                'name'  => $item->name,
+                'link'  => route('home.product.show', ['product' => $item->slug]),
+                'price' => $item->pivot->price,
+                'count' => $item->pivot->count,
+                'sum'   => $item->pivot->price * $item->pivot->count,
+            ];
+        })->toArray();
+        $statuses = Order::getStatuses();
+
+        return view('admin.orders.edit', [
+            'order' => $order,
+            'items' => $items,
+            'statuses' => $statuses,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $order = Order::query()->findOrFail($id);
+
+        $validatedData = $request->validate([
+            'status' => 'required|bool',
+        ]);
+
     }
 
     public function destroy($id)

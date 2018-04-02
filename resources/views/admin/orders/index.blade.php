@@ -52,40 +52,51 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($orders as $order)
+                            @if($orders->isNotEmpty())
+                                @foreach($orders as $order)
+                                    <tr>
+                                        <th scope="row">{{ $order->id }}</th>
+                                        <td>{{ $order->created_at->format('d.m.Y H:i') }}</td>
+                                        <td>{{ $statuses[ $order->status ] }}</td>
+                                        <td>{{ $order->full_name }}</td>
+                                        <td>
+                                            @foreach($order->products as $product)
+                                                <a href="{{ route('home.product.show', ['product' => $product]) }}" class="custom-link">{{ $product->name }}</a>
+                                                <br>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <div class="btn-group-sm" role="group" aria-label="Управление">
+                                                <a href="{{ route('admin.orders.edit', ['id' => $order->id]) }}" class="btn btn-primary" role="button">
+                                                    <span class="oi oi-pencil" title="Редактировать" aria-hidden="true"></span>
+                                                </a>
+                                                <a href="javascript:remove('{{ $order->id }}');" role="button" class="btn btn-danger">
+                                                    <span class="oi oi-trash" title="Удалить" aria-hidden="true"></span>
+                                                </a>
+                                            </div>
+                                            <form id="removeId{{ $order->id }}" action="{{ route('admin.orders.destroy', ['id' => $order->id]) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
                                 <tr>
-                                    <th scope="row">{{ $order['id'] }}</th>
-                                    <td>{{ $order['date'] }}</td>
-                                    <td>{{ $order['status'] }}</td>
-                                    <td>{{ $order['buyer'] }}</td>
-                                    <td>
-                                        @foreach($order['items'] as $item)
-                                            <a href="{{ $item['link'] }}" class="custom-link">{{ $item['name'] }}</a>
-                                            <br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        <div class="btn-group-sm" role="group" aria-label="Управление">
-                                            <a href="{{ route('admin.orders.edit', ['id' => $order['id']]) }}" class="btn btn-primary" role="button">
-                                                <span class="oi oi-pencil" title="Редактировать" aria-hidden="true"></span>
-                                            </a>
-                                            <a href="javascript:remove('{{ $order['id'] }}');" role="button" class="btn btn-danger">
-                                                <span class="oi oi-trash" title="Удалить" aria-hidden="true"></span>
-                                            </a>
-                                        </div>
-                                        <form id="removeId{{ $order['id'] }}" action="{{ route('admin.orders.destroy', ['id' => $order['id']]) }}" method="post">
-                                            @method('DELETE')
-                                            @csrf
-                                        </form>
-                                    </td>
+                                    <td colspan="6" align="center">Нет заказов</td>
                                 </tr>
-                            @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
-
+                <div class="row justify-content-center mt-1">
+                    {{ $orders->links() }}
+                </div>
             </div>
+        </div>
+        <div class="row justify-content-center mt-1">
+            {{ $orders->links() }}
         </div>
     </div>
 @endsection
