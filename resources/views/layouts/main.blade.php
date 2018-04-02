@@ -13,10 +13,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendors.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     @yield('style')
+    <link rel="stylesheet" href="{{ asset('vendors/select2/css/select2.min.css') }}">
 </head>
 <body>
+@include('loader')
 <div id="app">
     @php
         $shoppingCartItems = \App\Services\ShoppingCartService::getItems();
@@ -259,9 +260,10 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('vendors/jquery.number.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<script src="{{ asset('vendors/jquery.preloader.js') }}"></script>
 @yield('script')
+{{-- Plugins --}}
+<script src="{{ asset('vendors/jquery.number.min.js') }}"></script>
+<script src="{{ asset('vendors/jquery.preloader.js') }}"></script>
+<script src="{{ asset('vendors/select2/js/select2.min.js') }}"></script>
 </body>
 </html>

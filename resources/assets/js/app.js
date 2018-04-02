@@ -2,6 +2,10 @@ require('./bootstrap');
 
 const numberFormat = require("underscore.string/numberFormat");
 
+$(document).ready(function () {
+    $('.loader').fadeOut();
+});
+
 // Scroll Up
 $(window).scroll((e) => {
     if ($(e.currentTarget).scrollTop() > 100) {

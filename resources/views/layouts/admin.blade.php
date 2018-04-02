@@ -13,9 +13,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendors.css') }}">
+    @yield('style')
     <link rel="stylesheet" href="{{ asset('vendors/select2/css/select2.min.css') }}">
 </head>
 <body>
+@include('loader')
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel">
         <div class="container">
@@ -89,7 +91,8 @@
 </div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('vendors/select2/js/select2.min.js') }}"></script>
 @yield('script')
+{{-- Plugins --}}
+<script src="{{ asset('vendors/select2/js/select2.min.js') }}"></script>
 </body>
 </html>
