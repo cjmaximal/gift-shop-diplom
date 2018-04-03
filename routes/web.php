@@ -48,13 +48,9 @@ Route::group(['prefix' => '/profile'], function () {
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['middleware' => ['auth.admin:admin'], 'prefix' => 'admin'], function () {
 
-    Route::redirect('/', '/dashboard', 301);
-
-    Route::get('/dashboard', function (Request $request) {
-        dd(Auth::user());
-    })->name('admin.dashboard');
+    Route::redirect('/', '/admin/orders', 301);
 
     // Orders
     Route::group(['prefix' => 'orders'], function () {
