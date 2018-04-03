@@ -10,7 +10,7 @@ class ProfileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth_hash', 'auth']);
+        $this->middleware(['auth.hash', 'auth']);
     }
 
     public function index()
