@@ -67,8 +67,6 @@ class ShoppingCartService
 
     public static function putItem(Product $product, int $count = 1): bool
     {
-        $shoppingCartItems = collect(self::getItems());
-
         if (\Auth::check()) {
 
             $user = \Auth::user();
@@ -82,6 +80,7 @@ class ShoppingCartService
             }
         } else {
 
+            $shoppingCartItems = collect(self::getItems());
             $item = $shoppingCartItems->firstWhere('id', $product->id);
             if ($item) {
                 $shoppingCartItems->transform(function ($item) use ($product, $count) {
@@ -107,8 +106,6 @@ class ShoppingCartService
 
     public static function removeItem(Product $product, bool $completely = false): bool
     {
-        $shoppingCartItems = collect(self::getItems());
-
         if (\Auth::check()) {
 
             $user = \Auth::user();
@@ -125,6 +122,7 @@ class ShoppingCartService
                 $user->products()->updateExistingPivot($product->id, ['count' => $count]);
             }
         } else {
+            $shoppingCartItems = collect(self::getItems());
             $item = $shoppingCartItems->firstWhere('id', $product->id);
 
             if ($item) {
