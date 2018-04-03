@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Mail\OrderStatusChanged;
 use App\Order;
-use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
+use Mail;
 
 class OrdersController extends Controller
 {
@@ -49,8 +51,8 @@ class OrdersController extends Controller
         $statuses = Order::getStatuses();
 
         return view('admin.orders.edit', [
-            'order' => $order,
-            'items' => $items,
+            'order'    => $order,
+            'items'    => $items,
             'statuses' => $statuses,
         ]);
     }
@@ -60,9 +62,21 @@ class OrdersController extends Controller
         $order = Order::query()->findOrFail($id);
 
         $validatedData = $request->validate([
-            'status' => 'required|bool',
+            'status' => [
+                'required',
+                Rule::in(array_keys(Order::getStatuses())),
+            ],
         ]);
 
+        $order->status = $validatedData['status'];
+        $order->saveOrFail();
+
+        if ($validatedData['status'] != Order::STATUS_NEW) {
+            // Send mail
+            Mail::send(new OrderStatusChanged($order));
+        }
+
+        return redirect()->route('admin.orders.index');
     }
 
     public function destroy($id)
