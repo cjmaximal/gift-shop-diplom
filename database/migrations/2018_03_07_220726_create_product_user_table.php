@@ -39,6 +39,6 @@ class CreateProductUserTable extends Migration
             $table->dropForeign(['product_id']);
             $table->dropForeign(['user_id']);
         });
-        Schema::dropIfExists('shopping_carts');
+        Schema::dropIfExists('product_user');
     }
 }
