@@ -124,7 +124,7 @@
                                     <td>{{ $order['date'] }}</td>
                                     <td>
                                         @foreach($order['items'] as $item)
-                                            <a href="{{ $item['link'] }}" class="btn btn-link" target="_blank">
+                                            <a href="{{ $item['link'] }}" class="custom-link" target="_blank">
                                                 {{ $item['name'] }}
                                             </a>
                                             <br>
