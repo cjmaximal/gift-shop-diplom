@@ -11,9 +11,26 @@ use Mail;
 
 class OrderController extends Controller
 {
-    public function show(Order $order)
+    public function show($id)
     {
-        dd($order);
+        $order = Order::query()->with('products')->findOrFail($id);
+
+        $items = $order->products->map(function ($item) {
+            return [
+                'name'  => $item->name,
+                'link'  => route('home.product.show', ['product' => $item->slug]),
+                'price' => $item->pivot->price,
+                'count' => $item->pivot->count,
+                'sum'   => $item->pivot->price * $item->pivot->count,
+            ];
+        })->toArray();
+        $statuses = Order::getStatuses();
+
+        return view('order.show', [
+            'order'    => $order,
+            'items'    => $items,
+            'statuses' => $statuses,
+        ]);
     }
 
     public function confirm()

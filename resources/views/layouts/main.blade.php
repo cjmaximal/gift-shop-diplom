@@ -189,6 +189,11 @@
                                         Персональные данные
                                     </li>
                                 @endif
+                                @if(Route::currentRouteNamed('order.show'))
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Просмотр заказа
+                                    </li>
+                                @endif
                             </ol>
                         </nav>
                     @endif
