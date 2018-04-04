@@ -29,7 +29,7 @@
         $menuItems = \App\Services\MenuService::get();
     @endphp
     <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-primary" style="box-shadow: #343a40 2px 0 10px;">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Gift-Shop') }}
             </a>
