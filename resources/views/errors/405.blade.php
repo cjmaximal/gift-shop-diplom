@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
-@section('title', 'Страница не найдена')
+@section('title', 'Метод запрещен')
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-12">

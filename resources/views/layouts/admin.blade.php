@@ -20,7 +20,7 @@
 @include('loader')
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('admin.orders.index') }}">
                 {{ config('app.name', 'Gift-Shop') }} Управление
             </a>
