@@ -27,7 +27,6 @@
                                        value="{{ old('surname', optional(Auth::user())->surname) }}"
                                        class="form-control {{ $errors->has('surname') ? ' is-invalid' : '' }}"
                                        id="inputSurname"
-                                       placeholder="Иванов"
                                        autofocus>
                                 @if ($errors->has('surname'))
                                     <span class="invalid-feedback">
@@ -42,7 +41,6 @@
                                        value="{{ old('name', optional(Auth::user())->name) }}"
                                        class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}"
                                        id="inputName"
-                                       placeholder="Иван"
                                        required>
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -56,8 +54,7 @@
                                        name="patronymic"
                                        value="{{ old('patronymic', optional(Auth::user())->patronymic) }}"
                                        class="form-control {{ $errors->has('patronymic') ? ' is-invalid' : '' }}"
-                                       id="inputPatronymic"
-                                       placeholder="Иванович">
+                                       id="inputPatronymic">
                                 @if ($errors->has('patronymic'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('patronymic') }}</strong>
@@ -73,8 +70,7 @@
                                        name="phone"
                                        value="{{ old('phone', optional(Auth::user())->phone) }}"
                                        class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                                       id="inputPhone"
-                                       placeholder="Телефон">
+                                       id="inputPhone">
                                 @if ($errors->has('phone'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('phone') }}</strong>
@@ -88,7 +84,6 @@
                                        value="{{ old('email', optional(Auth::user())->email) }}"
                                        class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
                                        id="inputEmail"
-                                       placeholder="E-mail"
                                        required
                                         {{ Auth::user() ? 'readonly' : '' }}>
                                 @if ($errors->has('email'))
@@ -108,7 +103,6 @@
                                        value="{{ old('address_index', optional(Auth::user())->address_index) }}"
                                        class="form-control {{ $errors->has('address_index') ? ' is-invalid' : '' }}"
                                        id="inputAddressIndex"
-                                       placeholder="Индекс"
                                        required>
                                 @if ($errors->has('address_index'))
                                     <span class="invalid-feedback">
@@ -123,7 +117,6 @@
                                        value="{{ old('address_city', optional(Auth::user())->address_city) }}"
                                        class="form-control {{ $errors->has('address_city') ? ' is-invalid' : '' }}"
                                        id="inputAddressCity"
-                                       placeholder="Город"
                                        required>
                                 @if ($errors->has('address_city'))
                                     <span class="invalid-feedback">
@@ -140,7 +133,6 @@
                                        value="{{ old('address_street', optional(Auth::user())->address_street) }}"
                                        class="form-control {{ $errors->has('address_street') ? ' is-invalid' : '' }}"
                                        id="inputAddressStreet"
-                                       placeholder="Улица"
                                        required>
                                 @if ($errors->has('address_street'))
                                     <span class="invalid-feedback">
@@ -155,7 +147,6 @@
                                        value="{{ old('address_home', optional(Auth::user())->address_home) }}"
                                        class="form-control {{ $errors->has('address_home') ? ' is-invalid' : '' }}"
                                        id="inputAddressHome"
-                                       placeholder="Дом"
                                        required>
                                 @if ($errors->has('address_home'))
                                     <span class="invalid-feedback">
@@ -169,8 +160,7 @@
                                        name="address_block"
                                        value="{{ old('address_block', optional(Auth::user())->address_block) }}"
                                        class="form-control {{ $errors->has('address_block') ? ' is-invalid' : '' }}"
-                                       id="inputAddressBlock"
-                                       placeholder="Корпус">
+                                       id="inputAddressBlock">
                                 @if ($errors->has('address_block'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('address_block') }}</strong>
@@ -183,8 +173,7 @@
                                        name="address_porch"
                                        value="{{ old('address_porch', optional(Auth::user())->address_porch) }}"
                                        class="form-control {{ $errors->has('address_porch') ? ' is-invalid' : '' }}"
-                                       id="inputAddressPorch"
-                                       placeholder="Подъезд">
+                                       id="inputAddressPorch">
                                 @if ($errors->has('address_porch'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('address_porch') }}</strong>
@@ -197,8 +186,7 @@
                                        name="address_apartment"
                                        value="{{ old('address_apartment', optional(Auth::user())->address_apartment) }}"
                                        class="form-control {{ $errors->has('address_apartment') ? ' is-invalid' : '' }}"
-                                       id="inputAddressApartment"
-                                       placeholder="Квартира">
+                                       id="inputAddressApartment">
                                 @if ($errors->has('address_apartment'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('address_apartment') }}</strong>
