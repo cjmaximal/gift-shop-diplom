@@ -14,12 +14,6 @@
 
 Auth::routes();
 
-Route::get('/order-mail', function () {
-    $order = App\Order::firstOrFail();
-
-    return new App\Mail\OrderCreated($order);
-});
-
 Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/contacts', 'HomeController@contacts')->name('home.contacts');
 Route::get('/conditions', 'HomeController@conditions')->name('home.conditions');
@@ -48,6 +42,9 @@ Route::group(['prefix' => '/profile'], function () {
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
+/**
+ * Admin routes
+ */
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function () {
 
     Route::redirect('/', '/admin/orders', 301);

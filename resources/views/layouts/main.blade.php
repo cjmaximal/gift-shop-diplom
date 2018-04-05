@@ -78,7 +78,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 @if(Auth::user()->isAdmin())
-                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                    <a class="dropdown-item" href="{{ route('admin.orders.index') }}">
                                         <span class="oi oi-cog"></span>
                                         Управление сайтом
                                     </a>
@@ -120,9 +120,9 @@
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
                                 @foreach($menuItems as $categoryItem)
-                                    <li class="list-group-item font-weight-bold {{ optional(Route::current()->parameter('category'))->id == $categoryItem['id'] ? 'active' : ''}}">
+                                    <li class="list-group-item font-weight-bold {{ Route::currentRouteNamed('home.categories') && Route::current()->parameter('category')->id == $categoryItem['id'] ? 'active' : ''}}">
                                         <a href="{{ route('home.categories.show', ['category' => $categoryItem['slug']]) }}"
-                                           class="{{ optional(Route::current()->parameter('category'))->id == $categoryItem['id'] ? 'text-white' : ''}}">{{ $categoryItem['name'] }}</a>
+                                           class="{{ Route::currentRouteNamed('home.categories') && Route::current()->parameter('category')->id == $categoryItem['id'] ? 'text-white' : ''}}">{{ $categoryItem['name'] }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -150,12 +150,12 @@
                                 @endif
                                 @if(Route::currentRouteNamed('home.categories.show'))
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ Route::current()->parameter('category')->name }}
+                                        {{ Route::currentRouteNamed('home.categories.show') && Route::current()->parameter('category')->name }}
                                     </li>
                                 @endif
                                 @if(Route::currentRouteNamed('home.product.show'))
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ Route::current()->parameter('product')->name }}
+                                        {{ Route::currentRouteNamed('home.product.show') && Route::current()->parameter('product')->name }}
                                     </li>
                                 @endif
                                 @if(Route::currentRouteNamed('order.confirm'))
