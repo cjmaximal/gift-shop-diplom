@@ -150,12 +150,12 @@
                                 @endif
                                 @if(Route::currentRouteNamed('home.categories.show'))
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ Route::currentRouteNamed('home.categories.show') && Route::current()->parameter('category')->name }}
+                                        {{ Route::current()->parameter('category')->name }}
                                     </li>
                                 @endif
                                 @if(Route::currentRouteNamed('home.product.show'))
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ Route::currentRouteNamed('home.product.show') && Route::current()->parameter('product')->name }}
+                                        {{ Route::current()->parameter('product')->name }}
                                     </li>
                                 @endif
                                 @if(Route::currentRouteNamed('order.confirm'))
