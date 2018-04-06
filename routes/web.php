@@ -16,6 +16,9 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/contacts', 'HomeController@contacts')->name('home.contacts');
+Route::post('/contacts', 'HomeController@contactsFeedbackSend')->name('home.contacts.send');
+Route::get('/contacts/sent', 'HomeController@contactsFeedbackSent')->name('home.contacts.sent');
+Route::get('/contacts', 'HomeController@contacts')->name('home.contacts');
 Route::get('/conditions', 'HomeController@conditions')->name('home.conditions');
 
 Route::get('/category/{category}', 'CategoryController@show')->name('home.categories.show');

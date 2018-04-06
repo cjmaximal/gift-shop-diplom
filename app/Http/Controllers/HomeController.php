@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Mail\SendFeedback;
 use App\Product;
 use App\Services\ShoppingCartService;
 use Illuminate\Http\Request;
@@ -43,6 +44,25 @@ class HomeController extends Controller
     public function contacts()
     {
         return view('contacts');
+    }
+
+    public function contactsFeedbackSend(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email'                => 'required|email',
+            'name'                 => 'required|string',
+            'message'              => 'required',
+            'g-recaptcha-response' => 'required|captcha',
+        ]);
+
+        \Mail::send(new SendFeedback($validatedData['email'], $validatedData['name'], $validatedData['message']));
+
+        return redirect()->route('home.feedback.sent');
+    }
+
+    public function contactsFeedbackSent()
+    {
+        return view('feedback_sent');
     }
 
     public function conditions()

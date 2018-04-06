@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/vendors.css') }}">
     @yield('style')
     <link rel="stylesheet" href="{{ asset('vendors/select2/css/select2.min.css') }}">
+    {!! NoCaptcha::renderJs('ru') !!}
 </head>
 <body>
 @include('components.loader')

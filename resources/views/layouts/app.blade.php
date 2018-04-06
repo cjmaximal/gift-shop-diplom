@@ -14,6 +14,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendors.css') }}">
+    {!! NoCaptcha::renderJs('ru') !!}
 </head>
 <body>
 @include('components.loader')

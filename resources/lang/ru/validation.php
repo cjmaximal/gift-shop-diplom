@@ -100,8 +100,9 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'g-recaptcha-response' => [
+            'required' => 'Пожалуйста подтвердите, что Вы не робот.',
+            'captcha'  => 'Ошибка! Попробуйте позже.',
         ],
     ],
 

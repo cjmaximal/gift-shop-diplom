@@ -2,23 +2,65 @@
 
 @section('title', 'Контакты')
 @section('content')
-<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card card-default">
+        <div class="col-md-12">
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="card border-light" style="box-shadow: rgba(0, 0, 0, .3) 0 0 8px 1px;">
                 <div class="card-header">Контакты</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    <form method="POST" action="{{ route('home.contacts.send') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="inputEmail">E-mail</label>
+                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="inputEmail" value="{{ Auth::check() ? Auth::user()->email : '' }}" {{ Auth::check() ? 'readonly' : null }}>
 
-                    Контакты!
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName">Имя</label>
+                            <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="inputName" value="{{ Auth::check() ? Auth::user()->fullName : '' }}" {{ Auth::check() ? 'readonly' : null }}>
+
+                            @if ($errors->has('name'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName">Сообщение</label>
+                            <textarea class="form-control{{ $errors->has('message') ? ' is-invalid' : '' }}" id="inputMessage"></textarea>
+
+                            @if ($errors->has('message'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('message') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        {!! NoCaptcha::display() !!}
+                        <button type="submit" class="btn btn-primary mt-3">
+                            <span class="oi oi-comment-square"></span>
+                            Отправить
+                        </button>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
-</div>
+    </div>
+    </div>
+    </div>
 @endsection
