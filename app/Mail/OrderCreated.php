@@ -51,11 +51,12 @@ class OrderCreated extends Mailable
             ];
         })->toArray();
 
-        $status = Order::getStatuses()[$this->order->status];
+        $status = Order::getStatuses()[ $this->order->status ];
 
         $detailsUrl = route('order.show', [
-            'id'   => $this->order->id,
-            'hash' => md5($this->order->id . ':' . $this->order->email),
+            'id'    => $this->order->id,
+            'hash'  => md5($this->order->id . ':' . $this->order->email),
+            'email' => $this->order->email,
         ]);
 
         return $this->markdown('emails.orders.created')

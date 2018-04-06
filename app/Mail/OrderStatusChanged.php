@@ -35,8 +35,9 @@ class OrderStatusChanged extends Mailable
     {
         $status = Order::getStatuses()[ $this->order->status ];
         $detailsUrl = route('order.show', [
-            'id'   => $this->order->id,
-            'hash' => md5($this->order->id . ':' . $this->order->email),
+            'id'    => $this->order->id,
+            'hash'  => md5($this->order->id . ':' . $this->order->email),
+            'email' => $this->order->email,
         ]);
 
         return $this->markdown('emails.orders.status_changed')

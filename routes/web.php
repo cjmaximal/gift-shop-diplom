@@ -28,7 +28,7 @@ Route::get('/shopping-cart', 'HomeController@shoppingCart')->name('home.shopping
 Route::get('/order/confirm', 'OrderController@confirm')->name('order.confirm');
 Route::get('/order/address', 'OrderController@address')->name('order.address');
 Route::post('/order/make', 'OrderController@make')->name('order.make');
-Route::get('/order/{id}/details/', 'OrderController@show')->name('order.show');
+Route::get('/order/{id}/details/', 'OrderController@show')->middleware('order.hash')->name('order.show');
 
 Route::group(['prefix' => '/profile'], function () {
 
