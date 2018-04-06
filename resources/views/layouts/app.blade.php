@@ -10,11 +10,13 @@
 
     <title>{{ config('app.name', 'Gift-Shop') }} - @yield('title', 'Главная')</title>
 
+    @include('components.favicon')
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendors.css') }}">
 </head>
 <body>
+@include('components.loader')
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <div class="container">

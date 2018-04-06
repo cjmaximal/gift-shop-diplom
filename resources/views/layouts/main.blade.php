@@ -10,6 +10,7 @@
 
     <title>{{ config('app.name', 'Gift-Shop') }} - @yield('title', 'Главная')</title>
 
+    @include('components.favicon')
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendors.css') }}">
@@ -17,7 +18,7 @@
     <link rel="stylesheet" href="{{ asset('vendors/select2/css/select2.min.css') }}">
 </head>
 <body>
-@include('loader')
+@include('components.loader')
 <div id="app">
     @php
         $shoppingCartItems = \App\Services\ShoppingCartService::getItems();
