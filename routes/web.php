@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('auth.admin');
 
 Auth::routes();
 
@@ -39,8 +39,6 @@ Route::group(['prefix' => '/profile'], function () {
     Route::put('/address', 'ProfileController@updateAddress')->name('profile.address.update');
 
 });
-
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 /**
  * Admin routes
