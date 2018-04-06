@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Auth\EloquentAdminUserProvider;
-use Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -26,10 +24,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        // Binding eloquent.admin to our EloquentAdminUserProvider
-        Auth::provider('eloquent.admin', function ($app, array $config) {
-            return new EloquentAdminUserProvider($app['hash'], $config['model']);
-        });
     }
 }
