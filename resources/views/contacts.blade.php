@@ -21,7 +21,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="inputEmail">E-mail</label>
-                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="inputEmail" value="{{ Auth::check() ? Auth::user()->email : '' }}" {{ Auth::check() ? 'readonly' : null }}>
+                            <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="inputEmail" value="{{ Auth::check() ? Auth::user()->email : old('email') }}" {{ Auth::check() ? 'readonly' : null }} autofocus>
 
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback">
@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputName">Имя</label>
-                            <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="inputName" value="{{ Auth::check() ? Auth::user()->fullName : '' }}" {{ Auth::check() ? 'readonly' : null }}>
+                            <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="inputName" value="{{ Auth::check() ? Auth::user()->fullName : old('name') }}" {{ Auth::check() ? 'readonly' : null }}>
 
                             @if ($errors->has('name'))
                                 <span class="invalid-feedback">
@@ -40,8 +40,8 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="inputName">Сообщение</label>
-                            <textarea class="form-control{{ $errors->has('message') ? ' is-invalid' : '' }}" id="inputMessage"></textarea>
+                            <label for="inputMessage">Сообщение</label>
+                            <textarea name="message" class="form-control{{ $errors->has('message') ? ' is-invalid' : '' }}" id="inputMessage">{{ old('message') }}</textarea>
 
                             @if ($errors->has('message'))
                                 <span class="invalid-feedback">
@@ -49,7 +49,15 @@
                                     </span>
                             @endif
                         </div>
-                        {!! NoCaptcha::display() !!}
+                        <div class="form-group">
+                            {!! NoCaptcha::display() !!}
+
+                            @if ($errors->has('g-recaptcha-response'))
+                                <span class="invalid-feedback" style="display: block;">
+                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
                         <button type="submit" class="btn btn-primary mt-3">
                             <span class="oi oi-comment-square"></span>
                             Отправить
