@@ -13,6 +13,10 @@ class SendFeedback extends Mailable
     /**
      * @var string
      */
+    private $email;
+    /**
+     * @var string
+     */
     private $name;
     /**
      * @var string
@@ -22,13 +26,13 @@ class SendFeedback extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param string $to
+     * @param string $email
      * @param string $name
      * @param string $message
      */
-    public function __construct(string $to, string $name, string $message)
+    public function __construct(string $email, string $name, string $message)
     {
-        $this->to = $to;
+        $this->email = $email;
         $this->name = $name;
         $this->message = $message;
     }
@@ -42,7 +46,7 @@ class SendFeedback extends Mailable
     {
         return $this->markdown('emails.feedback')
             ->with([
-                'to'      => $this->to,
+                'email'   => $this->email,
                 'name'    => $this->name,
                 'message' => $this->message,
             ])

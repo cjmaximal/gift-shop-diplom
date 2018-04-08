@@ -57,7 +57,7 @@ class HomeController extends Controller
 
         \Mail::send(new SendFeedback($validatedData['email'], $validatedData['name'], $validatedData['message']));
 
-        return redirect()->route('home.feedback.sent');
+        return redirect()->route('home.contacts.sent');
     }
 
     public function contactsFeedbackSent()
