@@ -46,7 +46,8 @@ class UserRegistered extends Mailable
             ->with([
                 'full_name'   => $fullName,
                 'profile_url' => $profileUrl,
-            ])->to($this->user->email)
+            ])
+            ->to($this->user->email)
             ->subject('Регистрация в интернет-магазине' . config('app.name'));
     }
 }

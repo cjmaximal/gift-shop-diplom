@@ -50,7 +50,7 @@ class HomeController extends Controller
     {
         $validatedData = $request->validate([
             'email'                => 'required|email',
-            'name'                 => 'required|string',
+            'name'                 => 'required',
             'message'              => 'required',
             'g-recaptcha-response' => 'required|captcha',
         ]);
