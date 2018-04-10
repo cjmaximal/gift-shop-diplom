@@ -12,11 +12,6 @@ class CategoriesController extends Controller
     private $page = 1;
     private $perPage = 10;
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         $categories = Category::query()
