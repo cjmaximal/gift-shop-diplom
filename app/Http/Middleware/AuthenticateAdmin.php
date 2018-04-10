@@ -17,11 +17,11 @@ class AuthenticateAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() || !Auth::user()->isAdmin()) {
+        if (!Auth::check() && !Auth::user()->isAdmin()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                return abort(401);
+                return abort(401, 'Unauthorized.');
             }
         }
 
