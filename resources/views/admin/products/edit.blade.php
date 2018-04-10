@@ -173,11 +173,17 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">
-                                    <span class="oi oi-check" title="icon check" aria-hidden="true"></span>
-                                    Сохранить
-                                </button>
-                                <a href="{{ route('admin.products.index') }}" class="btn btn-outline-dark">
+                                <div class="btn-group">
+                                    <button type="submit" name="submit" class="btn btn-primary" value="close">
+                                        <span class="oi oi-check" title="icon check" aria-hidden="true"></span>
+                                        Сохранить и закрыть
+                                    </button>
+                                    <button type="submit" name="submit" class="btn btn-outline-primary" value="save">
+                                        <span class="oi oi-circle-check" title="icon check" aria-hidden="true"></span>
+                                        Сохранить
+                                    </button>
+                                </div>
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-outline-dark float-right">
                                     <span class="oi oi-x" title="icon x" aria-hidden="true"></span>
                                     Отмена
                                 </a>

@@ -192,24 +192,40 @@ class ProductsController extends Controller
         }
 
         if ($product->images()->count()) {
-            if ($request->filled('default_image') && $product->images()->where('id', $request->input('default_image'))) {
-                $product->images()->update(['is_default' => 0]);
+            $product->images()->update(['is_default' => 0]);
+            if (
+                $request->filled('default_image') &&
+                !in_array($request->input('default_image'), $request->input('remove_images', [])) &&
+                $product->images()->where('id', $request->input('default_image'))->count()
+            ) {
                 $product->images()->where('id', $request->input('default_image'))->update(['is_default' => 1]);
+            } else if (!$product->images()->where('is_default', 1)->count()) {
+                $image = $product->images()->first();
+                $image->is_default = true;
+                $image->save();
             } else {
-                if (!$product->images()->where('is_default', 1)->count()) {
-                    $image = $product->images()->first();
-                    $image->is_default = true;
-                    $image->save();
-                }
+                $product->images()
+                    ->where('id', $request->input('default_image'))
+                    ->update(['is_default' => 1]);
             }
         }
 
+        $productLink = route('admin.products.edit', ['product' => $product->slug]);
+        $statusMessage = "Товар <strong><a href='$productLink'>{$product->name}</a></strong> успешно сохранен!";
+
+        if ($request->input('submit') == 'close') {
+            return redirect()
+                ->route('admin.products.index')
+                ->with('status', $statusMessage);
+        }
+
         return redirect()
-            ->route('admin.products.index')
-            ->with('status', "Товар <strong>{$product->name}</strong> успешно сохранен!");
+            ->back()
+            ->with('status', $statusMessage);
     }
 
-    public function destroy(Product $product)
+    public
+    function destroy(Product $product)
     {
         try {
             $product->delete();
