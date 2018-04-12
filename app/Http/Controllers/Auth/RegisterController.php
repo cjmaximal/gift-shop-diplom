@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'surname'    => 'nullable|string|max:255',
             'patronymic' => 'nullable|string|max:255',
             'email'      => 'required|string|email|max:255|unique:users',
-            'phone'      => 'required',
+            'phone'      => 'required|string|max:255',
             'password'   => 'required|string|min:6|confirmed',
         ]);
     }

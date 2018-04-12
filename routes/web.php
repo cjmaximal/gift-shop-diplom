@@ -52,17 +52,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
     // Orders
     Route::group(['prefix' => 'orders'], function () {
-
-
         Route::get('/', 'Admin\OrdersController@index')->name('admin.orders.index');
         Route::get('/{id}/edit', 'Admin\OrdersController@edit')->name('admin.orders.edit');
         Route::put('/{id}', 'Admin\OrdersController@update')->name('admin.orders.update');
         Route::delete('/{id}', 'Admin\OrdersController@destroy')->name('admin.orders.destroy');
-
     });
 
     // Users
-    Route::get('users', 'Admin\UsersController@index')->name('admin.users.index');
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', 'Admin\UsersController@index')->name('admin.users.index');
+        Route::get('/create', 'Admin\UsersController@create')->name('admin.users.create');
+        Route::post('/store', 'Admin\UsersController@store')->name('admin.users.store');
+        Route::get('/{user}/edit', 'Admin\UsersController@edit')->name('admin.users.edit');
+        Route::put('/{user}', 'Admin\UsersController@update')->name('admin.users.update');
+        Route::delete('/{user}', 'Admin\UsersController@destroy')->name('admin.users.destroy');
+    });
 
     // Categories
     Route::group(['prefix' => 'categories'], function () {
