@@ -61,6 +61,8 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        abort_if($user->id != \Auth::user()->id, 403);
+
         return view('admin.users.edit', [
             'user' => $user,
         ]);
@@ -68,13 +70,15 @@ class UsersController extends Controller
 
     public function update(Request $request, User $user)
     {
+        abort_if($user->id != \Auth::user()->id, 403);
+
         $validatedData = $request->validate([
             'name'       => 'required|string|max:255',
             'surname'    => 'nullable|string|max:255',
             'patronymic' => 'nullable|string|max:255',
-            'email'      => 'required|string|email|max:255|unique:users',
+            'email'      => 'required|string|email|max:255|unique:users,email,' . $request->input('email'),
             'phone'      => 'required|string|max:255',
-            'password'   => 'required|string|min:6|confirmed',
+            'password'   => 'nullable|string|min:6',
             'is_admin'   => 'nullable|boolean',
         ]);
 
@@ -83,6 +87,9 @@ class UsersController extends Controller
         try {
             if ($user->id == 1) {
                 $validatedData['is_admin'] = true;
+            }
+            if (empty($validatedData['password'])) {
+                unset($validatedData['password']);
             }
             $user->save();
 

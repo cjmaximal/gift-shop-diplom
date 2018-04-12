@@ -24,7 +24,7 @@
 
                             <div class="form-group">
                                 <label for="inputSurname">Фамилия</label>
-                                <input type="text" name="surname" value="{{ old('phone', $user->surname) }}" class="form-control {{ $errors->has('surname') ? ' is-invalid' : '' }}" id="inputSurname">
+                                <input type="text" name="surname" value="{{ old('surname', $user->surname) }}" class="form-control {{ $errors->has('surname') ? ' is-invalid' : '' }}" id="inputSurname">
 
                                 @if ($errors->has('surname'))
                                     <span class="invalid-feedback">
@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputName" class="font-weight-bold">Имя *</label>
-                                <input type="text" name="name" value="{{ old('phone', $user->name) }}" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" id="inputName" autofocus required>
+                                <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" id="inputName" autofocus required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -44,7 +44,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputPatronymic">Отчество</label>
-                                <input type="text" name="patronymic" value="{{ old('phone', $user->patronymic) }}" class="form-control {{ $errors->has('patronymic') ? ' is-invalid' : '' }}" id="inputPatronymic">
+                                <input type="text" name="patronymic" value="{{ old('patronymic', $user->patronymic) }}" class="form-control {{ $errors->has('patronymic') ? ' is-invalid' : '' }}" id="inputPatronymic">
 
                                 @if ($errors->has('patronymic'))
                                     <span class="invalid-feedback">
@@ -54,7 +54,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail" class="font-weight-bold">E-mail *</label>
-                                <input type="email" name="email" value="{{ old('phone', $user->email) }}" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" id="inputEmail">
+                                <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" id="inputEmail" required>
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">
@@ -64,13 +64,27 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone" class="font-weight-bold">Телефон *</label>
-                                <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" id="inputPhone">
+                                <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" id="inputPhone" required>
 
                                 @if ($errors->has('phone'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('phone') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword" class="font-weight-bold">Пароль *</label>
+                                <input type="password" name="password" value="" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" id="inputPassword" required>
+
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPasswordConfirmation" class="font-weight-bold">Подтвеждение пароля *</label>
+                                <input type="password" name="password_confirmation" value="" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" id="inputPasswordConfirmation" required>
                             </div>
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" name="is_admin" id="checkboxIsAdmin" value="1" {{ $user->isAdmin() ? 'checked' : null }}>
