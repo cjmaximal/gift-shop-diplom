@@ -8,7 +8,7 @@ git pull
 composer u  
 yarn  
 yarn prod  
-php artisan config:clear  
-php artisan route:clear  
+php artisan config:cache  
+php artisan route:cache  
 php artisan view:clear  
 php artisan up  
