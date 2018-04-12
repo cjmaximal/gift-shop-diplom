@@ -224,8 +224,7 @@ class ProductsController extends Controller
             ->with('status', $statusMessage);
     }
 
-    public
-    function destroy(Product $product)
+    public function destroy(Product $product)
     {
         try {
             $product->delete();
