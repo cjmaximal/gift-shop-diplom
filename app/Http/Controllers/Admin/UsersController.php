@@ -54,6 +54,8 @@ class UsersController extends Controller
                 ->with('error', 'Ой! Что-то пошло не так...');
         }
 
+        \Mail::send(new UserRegistered($user));
+
         return redirect()
             ->route('admin.users.index')
             ->with('status', "Новый пользователь <strong>{$user->fullName}</strong> успешно добавлен!");
@@ -92,8 +94,6 @@ class UsersController extends Controller
 
             $user->fill($validatedData);
             $user->save();
-
-            \Mail::send(new UserRegistered($user));
         } catch (\Exception $e) {
             report($e);
 
