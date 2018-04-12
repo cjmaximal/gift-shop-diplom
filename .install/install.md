@@ -6,6 +6,8 @@ git reset --hard HEAD
 git clean -f -d  
 git pull  
 composer u  
+chmod -R ug+rwx storage bootstrap/cache  
+chgrp -R nginx storage bootstrap/cache  
 yarn  
 yarn prod  
 php artisan config:cache  
