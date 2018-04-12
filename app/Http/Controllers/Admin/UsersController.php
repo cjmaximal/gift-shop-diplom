@@ -61,7 +61,7 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        abort_if($user->id != \Auth::user()->id, 403);
+        abort_if($user->id == 1 && $user->id != \Auth::user()->id, 403);
 
         return view('admin.users.edit', [
             'user' => $user,
@@ -70,20 +70,18 @@ class UsersController extends Controller
 
     public function update(Request $request, User $user)
     {
-        abort_if($user->id != \Auth::user()->id, 403);
+        abort_if($user->id == 1 && $user->id != \Auth::user()->id, 403, 'Доступ запрещен!');
 
         $validatedData = $request->validate([
             'name'       => 'required|string|max:255',
             'surname'    => 'nullable|string|max:255',
             'patronymic' => 'nullable|string|max:255',
-            'email'      => 'required|string|email|max:255|unique:users,email,' . $request->input('email'),
+            'email'      => 'required|string|email|max:255|unique:users,id,' . $request->input('email'),
             'phone'      => 'required|string|max:255',
             'password'   => 'nullable|string|min:6',
             'is_admin'   => 'nullable|boolean',
         ]);
 
-
-        $user->fill($validatedData);
         try {
             if ($user->id == 1) {
                 $validatedData['is_admin'] = true;
@@ -91,18 +89,22 @@ class UsersController extends Controller
             if (empty($validatedData['password'])) {
                 unset($validatedData['password']);
             }
+
+            $user->fill($validatedData);
             $user->save();
 
             \Mail::send(new UserRegistered($user));
         } catch (\Exception $e) {
+            report($e);
+
             return redirect()
-                ->route('admin.users.edit')
+                ->back()
                 ->withInput()
                 ->with('error', 'Ой! Что-то пошло не так...');
         }
 
         return redirect()
-            ->back()
+            ->route('admin.users.index')
             ->with('status', "Пользователь <strong>{$user->fullName}</strong> успешно обновлен!");
     }
 
