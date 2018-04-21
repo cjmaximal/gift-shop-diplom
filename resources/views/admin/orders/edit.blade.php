@@ -108,7 +108,7 @@
                                 <span class="oi oi-circle-check" title="icon circle-check" aria-hidden="true"></span>
                                 Сохранить
                             </button>
-                            <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-dark">
+                            <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-dark">
                                 <span class="oi oi-x" title="icon x" aria-hidden="true"></span>
                                 Отмена
                             </a>
