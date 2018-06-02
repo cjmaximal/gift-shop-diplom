@@ -1,5 +1,5 @@
 @component('mail::message')
-Новое сооюбщение
+Новое сообщение
 <hr>
 Имя: **{{ $name }}**
 E-mail: **{{ $email }}**
